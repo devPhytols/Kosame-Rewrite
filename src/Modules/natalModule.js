@@ -138,7 +138,7 @@ module.exports = class natalModule {
             // Se ninguém acertou
             if (collected.size === 0) {
                 await dropMessage.edit({
-                    content: `${this.config.santaEmoji} **O Papai Noel foi embora...**\n\n<:snowflakes:1447707292521726134> Ninguém digitou a palavra **\`${this.currentWord}\`** a tempo!\n-# Fique atento para o próximo drop!`
+                    content: `${this.config.santaEmoji} **O Papai Noel foi embora...**\n\n<:snowflakes:1447707292521726134> Ninguém digitou a palavra a tempo!\n-# Fique atento para o próximo drop!`
                 }).catch(() => { });
 
                 // Deleta após 5 segundos
