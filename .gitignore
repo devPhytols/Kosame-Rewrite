@@ -1,0 +1,19 @@
+# node_modules
+node_modules
+
+# Pastas de compilação
+dist
+
+# Enviroments
+.env
+
+# VS
+.vs
+
+# Arquivos Package
+
+package-lock.json
+
+# Arquivos yarn
+yarn-error.log
+yarn.lock

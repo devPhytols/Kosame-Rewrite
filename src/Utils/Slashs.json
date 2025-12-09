@@ -1,0 +1,73 @@
+{
+  "desbugar": {
+    "name": "desbugar",
+    "description": "[MANAGER] Liberar transações de uma pessoa.",
+    "options": [
+      {
+        "name": "user",
+        "description": "Usuário que deseja desbugar.",
+        "required": false,
+        "type": "USER"
+      }
+    ]
+  },
+  "antifake": {
+    "name": "antifake",
+    "description": "[SEGURANÇA] Configurar o sistema de Anti-Fake.",
+    "options": [
+      {
+        "name": "canal",
+        "type": "SUB_COMMAND",
+        "description": "Defina o canal para o sistema de logs.",
+        "options": [
+          {
+            "name": "channel",
+            "description": "Insira o canal aqui!",
+            "type": "CHANNEL",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "dias",
+        "type": "SUB_COMMAND",
+        "description": "Defina a quantidade de dias que uma conta deve conter.",
+        "options": [
+          {
+            "name": "dias",
+            "description": "Insira a quantidade aqui!",
+            "type": "NUMBER",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "info",
+        "type": "SUB_COMMAND",
+        "description": "Informações do sistema de Anti-Fake."
+      },
+      {
+        "name": "on",
+        "type": "SUB_COMMAND",
+        "description": "Liga o sistema de Anti-Fake."
+      },
+      {
+        "name": "off",
+        "type": "SUB_COMMAND",
+        "description": "Desliga o sistema de Anti-Fake."
+      }
+    ]
+  },
+  "semanal": {
+    "name": "semanal",
+    "description": "Resgate o seu prêmio semanal."
+  },
+  "mensal": {
+    "name": "mensal",
+    "description": "Resgate o seu prêmio mensal."
+  },
+  "fofocar": {
+    "name": "fofocar",
+    "description": "Fofoque com o seu melhor amigo e ganhe coins."
+  }
+}

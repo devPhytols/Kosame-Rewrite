@@ -1,0 +1,134 @@
+{
+  "bglist": [
+    {
+      "id": "default",
+      "name": "Background Padrão",
+      "rarity": "Comum",
+      "coins": 0,
+      "filename": "https://i.imgur.com/l0E0xIe.jpg",
+      "preview": "https://i.imgur.com/l0E0xIe.jpg",
+      "description": "Background padrão da Kosame",
+      "onlydevs": false
+    },
+    {
+      "id": "pokehunter",
+      "name": "Poke Hunter",
+      "rarity": "Comum",
+      "coins": 10000,
+      "filename": "https://media.discordapp.net/attachments/865955409054793749/934243886468059186/Remini20220121212456217.jpg",
+      "preview": "https://i.imgur.com/3FuHGU6.png",
+      "description": "Diversos pokemons em uma cor primária e estilosa!",
+      "onlydevs": false
+    },
+    {
+      "id": "alonegirl1",
+      "name": "Alone Girl",
+      "rarity": "Incomum",
+      "coins": 25000,
+      "filename": "https://i.imgur.com/A3MC9KE.jpeg",
+      "preview": "https://media.discordapp.net/attachments/865955332625530890/907312746641649674/IMG_3984.jpg",
+      "description": "Sozinha sim, porém plena!",
+      "onlydevs": false
+    },
+    {
+      "id": "purpleZ",
+      "name": "PurpleZ",
+      "rarity": "Incomum",
+      "coins": 25000,
+      "filename": "https://i.imgur.com/5dNphby.jpeg",
+      "preview": "https://i.imgur.com/5dNphby.jpeg",
+      "description": "Olha e admira, só não cobiça!",
+      "onlydevs": false
+    },
+    {
+      "id": "butterflies",
+      "name": "Butterflies",
+      "rarity": "Incomum",
+      "coins": 55000,
+      "filename": "https://cdn.discordapp.com/attachments/865955352867635211/876670148528971826/image1.jpg",
+      "preview": "https://cdn.discordapp.com/attachments/865955352867635211/876670148306698281/image0.jpg",
+      "description": "Criatura plena e bela!",
+      "onlydevs": false
+    },
+    {
+      "id": "akatnike",
+      "name": "Akatsuki Nike",
+      "rarity": "Raro",
+      "coins": 50000,
+      "filename": "https://i.imgur.com/vvy6mmW.jpg",
+      "preview": "https://i.imgur.com/wZUJbn1.jpg",
+      "description": "Uma mistura bem perigosa e estilosa",
+      "onlydevs": false
+    },
+    {
+      "id": "aesthetic3",
+      "name": "Alone Aesthetic 3",
+      "rarity": "Raro",
+      "coins": 50000,
+      "filename": "https://i.imgur.com/pSsO5AM.png",
+      "preview": "https://i.imgur.com/fPZ2Xm2.jpg",
+      "description": "Ao por do sol, aprecio minha própria companhia!",
+      "onlydevs": false
+    },
+    {
+      "id": "halloween",
+      "name": "Halloween",
+      "rarity": "Raro",
+      "coins": 50000,
+      "filename": "https://i.imgur.com/XmzezpI.jpeg",
+      "preview": "https://i.imgur.com/XmzezpI.jpeg",
+      "description": "Uma mistura de macabro e fofo...",
+      "onlydevs": false
+    },
+    {
+      "id": "bts",
+      "name": "BTS",
+      "rarity": "Raro",
+      "coins": 50000,
+      "filename": "https://i.imgur.com/ouSjsvD.jpeg",
+      "preview": "https://i.imgur.com/ouSjsvD.jpeg",
+      "description": "Um lindo céu que se destaca!",
+      "onlydevs": false
+    },
+    {
+      "id": "onlylove",
+      "name": "Only Love",
+      "rarity": "Raro",
+      "coins": 50000,
+      "filename": "https://cdn.discordapp.com/attachments/865955368713715753/876668313701339216/image1.jpg",
+      "preview": "https://cdn.discordapp.com/attachments/865955368713715753/876668313357385788/image0.jpg",
+      "description": "Criando um amor próprio...",
+      "onlydevs": false
+    },
+    {
+      "id": "dark1",
+      "name": "Dark",
+      "rarity": "Raro",
+      "coins": 50000,
+      "filename": "https://media.discordapp.net/attachments/867846247803781160/876112696330821694/image0.jpg",
+      "preview": "https://cdn.discordapp.com/attachments/865955368713715753/876113102754684968/image0.jpg",
+      "description": "Dor e trevas apenas.😈",
+      "onlydevs": false
+    },
+    {
+      "id": "flowers",
+      "name": "Flowers",
+      "rarity": "Épico",
+      "coins": 100000,
+      "filename": "https://i.imgur.com/PhMYaQ3.jpeg",
+      "preview": "https://i.imgur.com/PhMYaQ3.jpeg",
+      "description": "Pureza, e beleza...",
+      "onlydevs": false
+    },
+    {
+      "id": "missyou",
+      "name": "I Miss You",
+      "rarity": "Lendário",
+      "coins": 200000,
+      "filename": "https://cdn.discordapp.com/attachments/865955409054793749/876674531094331422/image1.jpg",
+      "preview": "https://cdn.discordapp.com/attachments/865955409054793749/876674530892972062/image0.jpg",
+      "description": "Eu sinto sua falta 😢",
+      "onlydevs": false
+    }
+  ]
+}
