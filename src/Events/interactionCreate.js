@@ -569,28 +569,85 @@ module.exports = class interactionCreateEvent extends Event {
                 let value = interaction.values[0];
 
                 // Handler para a Lojinha de Natal - Seleção de Categoria
-                if (interaction.customId === 'lojinha_categoria') {
-                    const categoria = interaction.values[0];
+                if (interaction.customId.startsWith('lojinha_categoria_')) {
+                    const ownerId = interaction.customId.split('_')[2];
 
-                    // Itens da lojinha por categoria
+                    // Verifica se é o dono da lojinha
+                    if (interaction.user.id !== ownerId) {
+                        return interaction.reply({ content: '❌ Esta lojinha não é sua! Use `k!lojinha` para abrir a sua.', flags: MessageFlags.Ephemeral });
+                    }
+
+                    const categoria = interaction.values[0];
+                    const fs = require('fs');
+                    const resgatesPath = './resgates_natal.json';
+
+                    // Carrega resgates existentes
+                    let resgatesData = {};
+                    if (fs.existsSync(resgatesPath)) {
+                        try {
+                            resgatesData = JSON.parse(fs.readFileSync(resgatesPath, 'utf8'));
+                        } catch { resgatesData = {}; }
+                    }
+
+                    const userResgates = resgatesData[interaction.user.id] || {};
+
+                    // Itens da lojinha com preços e limites atualizados
                     const itensLojinha = {
                         itens: [
-                            { id: 'layout', nome: 'Layout Natalino por 30 dias', preco: 500, emoji: '<:itens:1447724488882913390>' },
-                            { id: 'coins', nome: '1B de Coins', preco: 300, emoji: '<:itens:1447724488882913390>' },
-                            { id: 'xp', nome: 'XP duplo por 30 dias', preco: 400, emoji: '<:itens:1447724488882913390>' },
-                            { id: 'vip', nome: 'VIP de 1 mês', preco: 1000, emoji: '<:itens:1447724488882913390>' },
-                            { id: 'slot', nome: 'Slot personalizado', preco: 600, emoji: '<:itens:1447724488882913390>' },
-                            { id: 'moldura', nome: 'Moldura', preco: 250, emoji: '<:itens:1447724488882913390>' }
+                            { id: 'layout', nome: 'Layout Natalino por 30 dias', preco: 180, limite: 2, emoji: '<:itens:1447724488882913390>' },
+                            { id: 'vip', nome: 'VIP de 15 dias', preco: 170, limite: 2, emoji: '<:itens:1447724488882913390>' },
+                            { id: 'coins', nome: '1.5B de Coins', preco: 130, limite: null, emoji: '<:itens:1447724488882913390>' },
+                            { id: 'xp', nome: 'XP duplo por 30 dias', preco: 100, limite: 2, emoji: '<:itens:1447724488882913390>' },
+                            { id: 'slot', nome: 'Slot Personalizado', preco: 80, limite: 3, emoji: '<:itens:1447724488882913390>' },
+                            { id: 'moldura', nome: 'Moldura', preco: 60, limite: null, emoji: '<:itens:1447724488882913390>' }
                         ],
-                        // arvore: [
-                        //     { id: 'bola_vermelha', nome: 'Bola Vermelha', preco: 50, emoji: '🔴' },
-                        //     { id: 'bola_dourada', nome: 'Bola Dourada', preco: 75, emoji: '🟡' },
-                        //     { id: 'estrela', nome: 'Estrela para o topo', preco: 150, emoji: '⭐' },
-                        //     { id: 'luz', nome: 'Luz de LED', preco: 100, emoji: '✨' },
-                        //     { id: 'laco', nome: 'Laço Decorativo', preco: 40, emoji: '🎀' },
-                        //     { id: 'floco', nome: 'Floco de Neve', preco: 60, emoji: '❄️' }
-                        // ]
+                        arvore: [] // Será preenchido dinamicamente com a próxima peça
                     };
+
+                    // Para categoria arvore, carrega a próxima peça dinamicamente
+                    if (categoria === 'arvore') {
+                        const { ArvorePecas, TotalPecas } = require('../Utils/Objects/ArvorePecas.js');
+                        const userData = await this.client.database.users.findOne({ idU: interaction.user.id });
+                        const pecaAtual = userData?.evento?.actualLevel || 0;
+                        const saldo = userData?.evento?.moeda1 || 0;
+
+                        if (pecaAtual >= TotalPecas) {
+                            return interaction.reply({
+                                content: '✨ **Parabéns!** Você já completou sua árvore de Natal! Use `k!arvore` para ver!',
+                                flags: MessageFlags.Ephemeral
+                            });
+                        }
+
+                        const proximaPeca = ArvorePecas[pecaAtual + 1];
+
+                        // Barra de progresso
+                        let barraProgresso = '';
+                        for (let i = 1; i <= TotalPecas; i++) {
+                            barraProgresso += i <= pecaAtual ? '🟢' : '⚫';
+                            if (i === 9) barraProgresso += '\n';
+                        }
+
+                        const embed = new EmbedBuilder()
+                            .setColor('#2ECC71')
+                            .setAuthor({ name: 'Lojinha de Natal', iconURL: 'https://i.imgur.com/s1S3NkC.png' })
+                            .setTitle('<:arvore:1447705894870581328> Peças da Árvore')
+                            .setDescription(
+                                `<:christmassock:1447757955415150743> **Seu saldo:** \`${saldo}\` Meias Natalinas\n\n` +
+                                `**Progresso:** ${pecaAtual}/${TotalPecas} peças\n${barraProgresso}\n\n` +
+                                `> 🛒 **Próxima peça:** Peça ${pecaAtual + 1}\n` +
+                                `> 💰 **Preço:** ${proximaPeca.preco} meias`
+                            )
+                            .setFooter({ text: 'Clique no botão abaixo para comprar!' });
+
+                        const comprarBtn = new ButtonBuilder()
+                            .setCustomId(`arvore_comprar_${interaction.user.id}`)
+                            .setLabel(`Comprar Peça ${pecaAtual + 1} (${proximaPeca.preco} meias)`)
+                            .setStyle(ButtonStyle.Success)
+                            .setEmoji('🛒');
+
+                        const row = new ActionRowBuilder().addComponents(comprarBtn);
+                        return interaction.reply({ embeds: [embed], components: [row], flags: MessageFlags.Ephemeral });
+                    }
 
                     const categoriaNome = {
                         itens: '<:itens:1447724488882913390> Itens & Recompensas',
@@ -600,12 +657,18 @@ module.exports = class interactionCreateEvent extends Event {
                     const itens = itensLojinha[categoria] || [];
 
                     // Cria as opções do select menu com os itens
-                    const options = itens.map(item => ({
-                        label: `${item.nome} - ${item.preco} pts`,
-                        description: `Clique para comprar por ${item.preco} Meias Natalinas`,
-                        value: `comprar_${item.id}_${item.preco}`,
-                        emoji: item.emoji.startsWith('<') ? item.emoji.match(/:(\d+)>/)?.[1] : item.emoji
-                    }));
+                    const options = itens.map(item => {
+                        const resgatesUsados = userResgates[item.id] || 0;
+                        const limiteTexto = item.limite ? ` (${resgatesUsados}/${item.limite})` : '';
+                        const esgotado = item.limite && resgatesUsados >= item.limite;
+
+                        return {
+                            label: `${item.nome}${limiteTexto} - ${item.preco} meias`,
+                            description: esgotado ? '❌ Limite atingido!' : `Clique para comprar por ${item.preco} Meias Natalinas`,
+                            value: `comprar_${item.id}_${item.preco}_${item.limite || 0}`,
+                            emoji: item.emoji.startsWith('<') ? item.emoji.match(/:(\d+)>/)?.[1] : item.emoji
+                        };
+                    });
 
                     const selectMenu = new StringSelectMenuBuilder()
                         .setCustomId('lojinha_comprar')
@@ -618,9 +681,12 @@ module.exports = class interactionCreateEvent extends Event {
                     const userData = await this.client.database.users.findOne({ idU: interaction.user.id });
                     const saldo = userData?.evento?.moeda1 || 0;
 
-                    let listaItens = itens.map((item, index) =>
-                        `> **${index + 1}.** ${item.emoji} ${item.nome}\n> -# <:christmassock:1447757955415150743> **${item.preco}** Meias Natalinas`
-                    ).join('\n\n');
+                    let listaItens = itens.map((item, index) => {
+                        const resgatesUsados = userResgates[item.id] || 0;
+                        const limiteTexto = item.limite ? ` (${item.limite} resgates apenas)` : '';
+                        const statusTexto = item.limite && resgatesUsados >= item.limite ? ' ❌' : '';
+                        return `> **${index + 1}.** ${item.emoji} ${item.nome}${limiteTexto}${statusTexto}\n> -# <:christmassock:1447757955415150743> **${item.preco}** Meias`;
+                    }).join('\n\n');
 
                     const embed = new EmbedBuilder()
                         .setColor('#ffffff')
@@ -628,7 +694,7 @@ module.exports = class interactionCreateEvent extends Event {
                         .setTitle(categoriaNome[categoria])
                         .setThumbnail('https://i.imgur.com/s1S3NkC.png')
                         .setDescription(`<:christmassock:1447757955415150743> **Seu saldo:** \`${saldo}\` Meias Natalinas\n\n${listaItens}`)
-                        .setImage('https://i.imgur.com/bF0KNMO.png')
+                        .setImage('https://i.imgur.com/PGRV1RX.png')
                         .setFooter({ text: 'Selecione um item abaixo para comprar!', iconURL: interaction.user.displayAvatarURL() });
 
                     return interaction.reply({ embeds: [embed], components: [row], flags: MessageFlags.Ephemeral });
@@ -636,8 +702,31 @@ module.exports = class interactionCreateEvent extends Event {
 
                 // Handler para compra de item da Lojinha
                 if (interaction.customId === 'lojinha_comprar') {
-                    const [, itemId, precoStr] = interaction.values[0].split('_');
+                    const fs = require('fs');
+                    const resgatesPath = './resgates_natal.json';
+
+                    const [, itemId, precoStr, limiteStr] = interaction.values[0].split('_');
                     const preco = parseInt(precoStr);
+                    const limite = parseInt(limiteStr) || null;
+
+                    // Carrega resgates existentes
+                    let resgatesData = {};
+                    if (fs.existsSync(resgatesPath)) {
+                        try {
+                            resgatesData = JSON.parse(fs.readFileSync(resgatesPath, 'utf8'));
+                        } catch { resgatesData = {}; }
+                    }
+
+                    const userResgates = resgatesData[interaction.user.id] || {};
+                    const resgatesUsados = userResgates[itemId] || 0;
+
+                    // Verifica limite de resgates
+                    if (limite && resgatesUsados >= limite) {
+                        return interaction.reply({
+                            content: `❌ **Limite atingido!**\n\nVocê já resgatou este item **${resgatesUsados}/${limite}** vezes.`,
+                            flags: MessageFlags.Ephemeral
+                        });
+                    }
 
                     // Busca saldo do usuário
                     const userData = await this.client.database.users.findOne({ idU: interaction.user.id });
@@ -662,21 +751,104 @@ module.exports = class interactionCreateEvent extends Event {
                         }
                     );
 
-                    // Log para testes - aqui você implementará a lógica depois
+                    // Atualiza o JSON de resgates
+                    if (!resgatesData[interaction.user.id]) {
+                        resgatesData[interaction.user.id] = {};
+                    }
+                    resgatesData[interaction.user.id][itemId] = (resgatesData[interaction.user.id][itemId] || 0) + 1;
+                    fs.writeFileSync(resgatesPath, JSON.stringify(resgatesData, null, 2));
+
+                    const novoResgate = resgatesData[interaction.user.id][itemId];
+
+                    // Log para testes
                     console.log(`[LOJINHA] Compra realizada:`);
                     console.log(`  - Usuário: ${interaction.user.tag} (${interaction.user.id})`);
                     console.log(`  - Item: ${itemId}`);
-                    console.log(`  - Preço: ${preco} pontos`);
+                    console.log(`  - Preço: ${preco} meias`);
                     console.log(`  - Saldo anterior: ${saldo}`);
                     console.log(`  - Novo saldo: ${saldo - preco}`);
+                    console.log(`  - Resgates: ${novoResgate}${limite ? `/${limite}` : ''}`);
+
+                    // Webhook para canal de logs do evento
+                    const webhookUrl = 'https://ptb.discord.com/api/webhooks/1449870075661390045/HRHHs-9a-CFT7tHv5b02Mq3hD7NZjqe3geexHrq_xIlKolOnCg4sXyjiRmfD85VI8Iy4'; // Substitua pela sua webhook
+                    const axios = require('axios');
+                    const webhookEmbed = {
+                        embeds: [{
+                            color: 0xFFFFFF,
+                            title: '<:shop:1447715924982370497> Compra na Lojinha',
+                            thumbnail: { url: interaction.user.displayAvatarURL() },
+                            fields: [
+                                { name: '<:reindeer:1447706280721387651> Usuário', value: `${interaction.user.tag}\n\`${interaction.user.id}\``, inline: false },
+                                { name: '<:present_nerd:1447714759863435354> Item', value: itemId, inline: false },
+                                { name: '<:acessorio2:1447705744802709544> Preço', value: `${preco} meias`, inline: false },
+                                { name: '<:christmassock:1447757955415150743> Saldo Anterior', value: `${saldo}`, inline: false },
+                                { name: '<:christmassock:1447757955415150743> Novo Saldo', value: `${saldo - preco}`, inline: false },
+                                { name: '<:acessorio1:1447705682190274580> Resgates', value: `${novoResgate}${limite ? `/${limite}` : '/∞'}`, inline: false }
+                            ],
+                            timestamp: new Date().toISOString()
+                        }]
+                    };
+                    axios.post(webhookUrl, webhookEmbed).catch(() => { });
 
                     const novoSaldo = saldo - preco;
+                    const limiteInfo = limite ? `\n<:rules:1447757878441021533> Resgates: **${novoResgate}/${limite}**` : '';
+
+                    // === ENTREGA AUTOMÁTICA DOS ITENS ===
+                    let mensagemExtra = '';
+
+                    switch (itemId) {
+                        case 'vip':
+                            // Adiciona 15 dias de VIP
+                            const quinzeDias = 15 * 24 * 60 * 60 * 1000;
+                            const vipAtual = userData?.vip?.date || Date.now();
+                            const novaDataVip = vipAtual > Date.now() ? vipAtual + quinzeDias : Date.now() + quinzeDias;
+
+                            await this.client.database.users.findOneAndUpdate(
+                                { idU: interaction.user.id },
+                                {
+                                    $set: {
+                                        'vip.hasVip': true,
+                                        'vip.date': novaDataVip
+                                    }
+                                }
+                            );
+                            mensagemExtra = '\n\n✅ **VIP de 15 dias ativado!** Aproveite os benefícios!';
+                            break;
+
+                        case 'coins':
+                            // Adiciona 1.5B de coins ao banco
+                            await this.client.database.users.findOneAndUpdate(
+                                { idU: interaction.user.id },
+                                { $inc: { bank: 1500000000 } }
+                            );
+                            mensagemExtra = '\n\n✅ **1.5B de Coins adicionados ao seu banco!**';
+                            break;
+
+                        case 'xp':
+                            // Adiciona XP duplo por 30 dias
+                            const trintaDias = 30 * 24 * 60 * 60 * 1000;
+                            const xpBoostExpira = Date.now() + trintaDias;
+
+                            await this.client.database.users.findOneAndUpdate(
+                                { idU: interaction.user.id },
+                                { $set: { 'xpBoost': xpBoostExpira } }
+                            );
+                            mensagemExtra = '\n\n✅ **XP Duplo ativado por 30 dias!**';
+                            break;
+
+                        case 'moldura':
+                        case 'layout':
+                        case 'slot':
+                            // Para Layout e Slot, pedir para abrir ticket
+                            mensagemExtra = '\n\n📩 **Para receber seu item, abra um https://ptb.discord.com/channels/834191314328485889/1267294633818329119 no servidor e solicite a entrega!**';
+                            break;
+                    }
 
                     return interaction.reply({
                         content: `<:present_nerd:1447714759863435354> **Compra realizada com sucesso!**\n\n` +
                             `<:shop:1447715924982370497> Item: **${itemId}**\n` +
                             `<:christmassock:1447757955415150743> Preço: **${preco}** Meias Natalinas\n` +
-                            `<:christmassock:1447757955415150743> Novo saldo: **${novoSaldo}** Meias Natalinas`,
+                            `<:christmassock:1447757955415150743> Novo saldo: **${novoSaldo}** Meias Natalinas${limiteInfo}${mensagemExtra}`,
                         flags: MessageFlags.Ephemeral
                     });
                 }
@@ -1162,6 +1334,226 @@ module.exports = class interactionCreateEvent extends Event {
                         flags: MessageFlags.Ephemeral,
                         components: []
                     });
+                }
+
+                // Handler para ver cards do usuário
+                if (interaction.customId.startsWith('ver_cards_')) {
+                    const userId = interaction.customId.split('_')[2];
+                    const { CardTypes } = require('../Utils/Objects/CardTypes.js');
+
+                    const userData = await this.client.database.users.findOne({ idU: userId });
+                    const userCards = userData?.cards || [];
+
+                    if (userCards.length === 0) {
+                        return interaction.reply({
+                            content: '❌ Este usuário não possui nenhum card.',
+                            flags: MessageFlags.Ephemeral
+                        });
+                    }
+
+                    const targetUser = await this.client.users.fetch(userId).catch(() => null);
+                    const userName = targetUser ? targetUser.username : 'Usuário';
+
+                    let cardsDescription = userCards.map((cardCode, index) => {
+                        const card = CardTypes[cardCode];
+                        if (card) {
+                            return `# <:Conquistas:1448802686332960859> **${card.name}**\n-# ${card.description}`;
+                        }
+                        return `# <:Conquistas:1448802686332960859> **${cardCode}** (Card desconhecido)`;
+                    }).join('\n\n');
+
+                    // Pega a imagem do primeiro card válido
+                    const firstCardCode = userCards[0];
+                    const firstCard = CardTypes[firstCardCode];
+                    const cardImage = firstCard?.imagePath || null;
+
+                    const embed = new EmbedBuilder()
+                        .setColor('#ffffff')
+                        .setDescription(cardsDescription)
+                        .setImage(cardImage)
+                        .setFooter({ text: `Total: ${userCards.length} conquista(s)` });
+
+                    return interaction.reply({
+                        embeds: [embed],
+                        flags: MessageFlags.Ephemeral
+                    });
+                }
+
+                // Handler para pausar evento de Natal
+                if (interaction.customId === 'evento_pausar') {
+                    if (!this.client.developers.includes(interaction.user.id)) {
+                        return interaction.reply({ content: '❌ Apenas desenvolvedores podem usar isso.', flags: MessageFlags.Ephemeral });
+                    }
+
+                    await this.client.database.client.findOneAndUpdate(
+                        { _id: this.client.user.id },
+                        { $set: { eventoPausado: true } }
+                    );
+
+                    const embed = new EmbedBuilder()
+                        .setColor('#FF4444')
+                        .setTitle('⏸️ Evento de Natal Pausado')
+                        .setDescription('Todos os sistemas do evento foram desativados.\n\n> • Drops do Papai Noel\n> • Lojinha\n> • Comandos de meias/árvore\n> • Ranking de meias')
+                        .setFooter({ text: `Pausado por ${interaction.user.tag}` });
+
+                    const resumeBtn = new ButtonBuilder()
+                        .setCustomId('evento_resumir')
+                        .setLabel('Resumir')
+                        .setStyle(ButtonStyle.Success)
+                        .setEmoji('▶️');
+
+                    const resetBtn = new ButtonBuilder()
+                        .setCustomId('evento_reset_meias')
+                        .setLabel('Zerar Meias')
+                        .setStyle(ButtonStyle.Secondary)
+                        .setEmoji('🗑️');
+
+                    const row = new ActionRowBuilder().addComponents(resumeBtn, resetBtn);
+                    return interaction.update({ embeds: [embed], components: [row] });
+                }
+
+                // Handler para resumir evento de Natal
+                if (interaction.customId === 'evento_resumir') {
+                    if (!this.client.developers.includes(interaction.user.id)) {
+                        return interaction.reply({ content: '❌ Apenas desenvolvedores podem usar isso.', flags: MessageFlags.Ephemeral });
+                    }
+
+                    await this.client.database.client.findOneAndUpdate(
+                        { _id: this.client.user.id },
+                        { $set: { eventoPausado: false } }
+                    );
+
+                    const embed = new EmbedBuilder()
+                        .setColor('#00FF00')
+                        .setTitle('▶️ Evento de Natal Ativo')
+                        .setDescription('Todos os sistemas do evento foram reativados!\n\n> • Drops do Papai Noel\n> • Lojinha\n> • Comandos de meias/árvore\n> • Ranking de meias')
+                        .setFooter({ text: `Ativado por ${interaction.user.tag}` });
+
+                    const pauseBtn = new ButtonBuilder()
+                        .setCustomId('evento_pausar')
+                        .setLabel('Pausar')
+                        .setStyle(ButtonStyle.Danger)
+                        .setEmoji('⏸️');
+
+                    const resetBtn = new ButtonBuilder()
+                        .setCustomId('evento_reset_meias')
+                        .setLabel('Zerar Meias')
+                        .setStyle(ButtonStyle.Secondary)
+                        .setEmoji('🗑️');
+
+                    const row = new ActionRowBuilder().addComponents(pauseBtn, resetBtn);
+                    return interaction.update({ embeds: [embed], components: [row] });
+                }
+
+                // Handler para zerar meias de todos os usuários
+                if (interaction.customId === 'evento_reset_meias') {
+                    if (!this.client.developers.includes(interaction.user.id)) {
+                        return interaction.reply({ content: '❌ Apenas desenvolvedores podem usar isso.', flags: MessageFlags.Ephemeral });
+                    }
+
+                    // Zera as meias de todos os usuários (saldo atual e total histórico)
+                    const result = await this.client.database.users.updateMany(
+                        { $or: [{ 'evento.moeda1': { $gt: 0 } }, { 'evento.moeda2': { $gt: 0 } }] },
+                        { $set: { 'evento.moeda1': 0, 'evento.moeda2': 0, 'evento.trocas': 0 } }
+                    );
+
+                    const embed = new EmbedBuilder()
+                        .setColor('#FF9900')
+                        .setTitle('🗑️ Meias Zeradas')
+                        .setDescription(`Todas as Meias Natalinas foram resetadas!\n\n> **${result.modifiedCount}** usuários afetados`)
+                        .setFooter({ text: `Resetado por ${interaction.user.tag}` });
+
+                    return interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
+                }
+
+                // Handler para comprar peça da árvore
+                if (interaction.customId.startsWith('arvore_comprar_')) {
+                    const userId = interaction.customId.split('_')[2];
+
+                    // Verifica se é o dono da interação
+                    if (interaction.user.id !== userId) {
+                        return interaction.reply({ content: '❌ Esta árvore não é sua!', flags: MessageFlags.Ephemeral });
+                    }
+
+                    const { ArvorePecas, TotalPecas } = require('../Utils/Objects/ArvorePecas.js');
+
+                    const userData = await this.client.database.users.findOne({ idU: userId });
+                    const pecaAtual = userData?.evento?.actualLevel || 0;
+                    const saldoMeias = userData?.evento?.moeda1 || 0;
+
+                    // Verifica se já completou
+                    if (pecaAtual >= TotalPecas) {
+                        return interaction.reply({ content: '✨ Você já completou sua árvore!', flags: MessageFlags.Ephemeral });
+                    }
+
+                    const proximaPeca = ArvorePecas[pecaAtual + 1];
+
+                    // Verifica saldo
+                    if (saldoMeias < proximaPeca.preco) {
+                        return interaction.reply({
+                            content: `❌ Você não tem meias suficientes!\n\n> Preço: **${proximaPeca.preco}** meias\n> Seu saldo: **${saldoMeias}** meias`,
+                            flags: MessageFlags.Ephemeral
+                        });
+                    }
+
+                    // Realiza a compra
+                    await this.client.database.users.findOneAndUpdate(
+                        { idU: userId },
+                        {
+                            $inc: { 'evento.moeda1': -proximaPeca.preco },
+                            $set: { 'evento.actualLevel': pecaAtual + 1 }
+                        }
+                    );
+
+                    const novoSaldo = saldoMeias - proximaPeca.preco;
+                    const novaPeca = pecaAtual + 1;
+
+                    // Barra de progresso atualizada
+                    let barraProgresso = '';
+                    for (let i = 1; i <= TotalPecas; i++) {
+                        barraProgresso += i <= novaPeca ? '🟢' : '⚫';
+                        if (i === 9) barraProgresso += '\n';
+                    }
+
+                    // Se completou a árvore
+                    if (novaPeca >= TotalPecas) {
+                        const embed = new EmbedBuilder()
+                            .setColor('#FFD700')
+                            .setTitle('🎉 Árvore Completa!')
+                            .setDescription(
+                                `Você completou sua **Árvore de Natal**!\n\n` +
+                                `**Progresso:** ${novaPeca}/${TotalPecas} peças\n${barraProgresso}\n\n` +
+                                `<:christmassock:1447757955415150743> **Saldo:** ${novoSaldo} meias`
+                            )
+                            .setFooter({ text: 'Use k!arvore para ver sua árvore!' });
+
+                        return interaction.update({ embeds: [embed], components: [] });
+                    }
+
+                    // Mostra próxima peça disponível
+                    const proximaPecaNova = ArvorePecas[novaPeca + 1];
+
+                    const embed = new EmbedBuilder()
+                        .setColor('#2ECC71')
+                        .setAuthor({ name: 'Lojinha de Natal', iconURL: 'https://i.imgur.com/s1S3NkC.png' })
+                        .setTitle('<:arvore:1447705894870581328> Peças da Árvore')
+                        .setDescription(
+                            `✅ **Peça ${novaPeca} comprada!** (-${proximaPeca.preco} meias)\n\n` +
+                            `<:christmassock:1447757955415150743> **Saldo:** \`${novoSaldo}\` Meias\n\n` +
+                            `**Progresso:** ${novaPeca}/${TotalPecas} peças\n${barraProgresso}\n\n` +
+                            `> 🛒 **Próxima peça:** Peça ${novaPeca + 1}\n` +
+                            `> 💰 **Preço:** ${proximaPecaNova.preco} meias`
+                        )
+                        .setFooter({ text: 'Clique no botão para comprar a próxima!' });
+
+                    const comprarBtn = new ButtonBuilder()
+                        .setCustomId(`arvore_comprar_${userId}`)
+                        .setLabel(`Comprar Peça ${novaPeca + 1} (${proximaPecaNova.preco} meias)`)
+                        .setStyle(ButtonStyle.Success)
+                        .setEmoji('🛒');
+
+                    const row = new ActionRowBuilder().addComponents(comprarBtn);
+                    return interaction.update({ embeds: [embed], components: [row] });
                 }
             }
 

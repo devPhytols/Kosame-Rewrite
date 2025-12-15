@@ -1,12 +1,12 @@
 const { ApplicationCommandType, EmbedBuilder } = require('discord.js');
 const { Command } = require('../../Structures/Structures');
 
-module.exports = class PontosCommand extends Command {
+module.exports = class MeiasCommand extends Command {
     constructor(client) {
         super(client);
         this.client = client;
 
-        this.name = 'pontos';
+        this.name = 'meias';
         this.type = ApplicationCommandType.ChatInput;
         this.description = 'Veja seu saldo de Meias Natalinas! 🎄';
         this.config = {
@@ -20,20 +20,27 @@ module.exports = class PontosCommand extends Command {
      * @param {Message} message
      * @param {String[]} args
      */
-    async commandExecute({ message }) {
-        const userData = await this.client.database.users.findOne({ idU: message.author.id });
+    async commandExecute({ message, args }) {
+        // Verifica se o evento está pausado
+        const clientData = await this.client.database.client.findOne({ _id: this.client.user.id });
+        if (clientData?.eventoPausado) {
+            return message.reply('❄️ O Evento de Natal está pausado no momento. Aguarde!');
+        }
+
+        let user = message.mentions?.users?.first() || await this.client.users.fetch(args[0] || message.author.id).catch(() => null);
+
+        const userData = await this.client.database.users.findOne({ idU: user.id });
 
         const pontos = userData?.evento?.moeda1 || 0;
         const trocas = userData?.evento?.trocas || 0;
 
         const embed = new EmbedBuilder()
             .setColor('#ffffff')
-            .setTitle('<:christmassock:1447757955415150743> Suas Meias Natalinas')
-            .setThumbnail(message.author.displayAvatarURL())
+            .setThumbnail(user.displayAvatarURL())
             .setDescription(
                 `<:christmassock:1447757955415150743> **Meias Natalinas:** \`${pontos}\`\n` +
                 `<:shop:1447715924982370497> **Trocas realizadas:** \`${trocas}\`\n\n` +
-                `-# Use \`/lojinha\` para trocar seus pontos por itens!`
+                `-# Você pode trocar suas meias por itens na lojinha!`
             )
             .setFooter({ text: `Evento de Natal Kosame 2025` });
 

@@ -1,5 +1,5 @@
 /* eslint-disable prefer-const */
-const { AttachmentBuilder, ApplicationCommandType, ApplicationCommandOptionType } = require('discord.js');
+const { AttachmentBuilder, ApplicationCommandType, ApplicationCommandOptionType, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require('discord.js');
 const { Command } = require('../../Structures/Structures');
 const { ClientEmbed } = require('../../Structures/ClientEmbed');
 const { InsigniaTypes } = require('../../Utils/Objects/InsigniaTypes');
@@ -40,7 +40,7 @@ module.exports = class ProfileCommand extends Command {
    * @param {User[]} args
    */
     async commandExecute({ message, args }) {
-        try{
+        try {
 
             //const uSrc = this.client.users.cache.get(args[0]) || message.mentions?.users?.first() || message.author;
             const uSrc = message.mentions?.users?.first() || await this.client.users.fetch(args[0] || message.author.id).catch(() => null);
@@ -166,8 +166,8 @@ module.exports = class ProfileCommand extends Command {
                 await Util.renderEmoji(
                     ctx,
                     // await this.client.users.fetch(user.marry.user).then((x) => x.username.length > 12 ? x.username.slice(0, 12) + ' ' : x.username),
-                    await this.client.users.fetch(user.marry.user).then(x => { 
-                        const name = x.globalName ? x.globalName : x.username; 
+                    await this.client.users.fetch(user.marry.user).then(x => {
+                        const name = x.globalName ? x.globalName : x.username;
                         return name.length > 12 ? name.slice(0, 12) + ' ' : name;
                     }),
                     360,
@@ -242,8 +242,8 @@ module.exports = class ProfileCommand extends Command {
                 await Util.renderEmoji(
                     ctx,
                     // await this.client.users.fetch(user.bestfriend.user).then((x) => x.username.length > 12 ? x.username.slice(0, 12) + ' ' : x.username),
-                    await this.client.users.fetch(user.bestfriend.user).then(x => { 
-                        const name = x.globalName ? x.globalName : x.username; 
+                    await this.client.users.fetch(user.bestfriend.user).then(x => {
+                        const name = x.globalName ? x.globalName : x.username;
                         return name.length > 12 ? name.slice(0, 12) + ' ' : name;
                     }),
                     615,
@@ -252,13 +252,13 @@ module.exports = class ProfileCommand extends Command {
             }
 
             // EXIBINDO OS EMBLEMAS
-            const slot1 = await loadImage(String(user.profile.slot1 == 'null' ? './src/Assets/img/default/slots/sbrNHAY.png' : user.profile.slot1 ));
+            const slot1 = await loadImage(String(user.profile.slot1 == 'null' ? './src/Assets/img/default/slots/sbrNHAY.png' : user.profile.slot1));
             ctx.drawImage(slot1, 55, 400, 189, 51);
 
-            const slot2 = await loadImage(String(user.profile.slot2 == 'null' ? './src/Assets/img/default/slots/sbrNHAY.png' : user.profile.slot2 ));
+            const slot2 = await loadImage(String(user.profile.slot2 == 'null' ? './src/Assets/img/default/slots/sbrNHAY.png' : user.profile.slot2));
             ctx.drawImage(slot2, 55, 456, 189, 51);
 
-            const slot3 = await loadImage(String(user.profile.slot3 == 'null' ? './src/Assets/img/default/slots/sbrNHAY.png' : user.profile.slot3 ));
+            const slot3 = await loadImage(String(user.profile.slot3 == 'null' ? './src/Assets/img/default/slots/sbrNHAY.png' : user.profile.slot3));
             ctx.drawImage(slot3, 55, 512, 189, 51);
 
             // EXIBINDO AS INSIGNIAS VIP
@@ -358,40 +358,40 @@ module.exports = class ProfileCommand extends Command {
                     }
                 }
             }
-            
+
             const insignias = user.equippedInsignias; // Obtém os códigos das insígnias do banco de dados
             const insigniaSize = 35; // Tamanho da insígnia
             const startX = user.vip.hasVip ? 729 - 40 : 729;
-            const startY = 258;                      
+            const startY = 258;
             const spacing = 40; // Espaçamento entre as insígnias
-            
+
             // Verifica se o usuário é booster
             const rivixBooster = await axios.get(`https://api.phytols.dev/api/v2/kosame/${uSrc.id}`);
             const isBooster = rivixBooster.data.some(data => data.isBooster); // Verifica se o usuário é booster
 
             for (let i = 0; i < insignias.length; i++) {
                 const insigniaCode = insignias[i]; // Código da insígnia
-            
+
                 // Se a insígnia for 'booster', verifica se o usuário realmente é booster
                 if (insigniaCode === 'booster' && !isBooster) continue;
-            
+
                 // Obtém a insígnia com base no código
                 const insignia = InsigniaTypes[insigniaCode];
-            
+
                 if (!insignia) continue; // Ignora se o código da insígnia não estiver no mapeamento
-            
+
                 const insigniaPath = insignia.imagePath; // Caminho da imagem da insígnia
-                
+
                 // Verifica se o caminho da imagem está correto
-                if (!insigniaPath) continue; 
-            
+                if (!insigniaPath) continue;
+
                 // Carrega a imagem da insígnia
                 const insigniaImage = await loadImage(insigniaPath);
                 const x = startX - i * spacing; // Subtração para mover as insígnias para a esquerda
                 ctx.drawImage(insigniaImage, x, startY, insigniaSize, insigniaSize); // Renderiza a insígnia
             }
-            
-            
+
+
 
             // EXIBINDO A QUANTIA DE COINS E XP
             ctx.textAlign = 'left';
@@ -429,7 +429,21 @@ module.exports = class ProfileCommand extends Command {
 
             const attach = new AttachmentBuilder(canvas.toBuffer('image/png', { quality: 1.0 }), { name: `Profile_${uSrc.tag}_.png` });
 
-            message.reply({ files: [attach] });
+            // Verifica se o usuário tem cards para mostrar o botão
+            const userCards = user.cards || [];
+
+            if (userCards.length > 0) {
+                const cardsButton = new ButtonBuilder()
+                    .setCustomId(`ver_cards_${uSrc.id}`)
+                    .setLabel(`Conquistas (${userCards.length})`)
+                    .setStyle(ButtonStyle.Secondary)
+                    .setEmoji('<:Conquistas:1448802686332960859>');
+
+                const row = new ActionRowBuilder().addComponents(cardsButton);
+                message.reply({ files: [attach], components: [row] });
+            } else {
+                message.reply({ files: [attach] });
+            }
 
             user.profile.cooldown = Date.now();
             user.save();

@@ -128,7 +128,7 @@ module.exports = class RankcoinsCommand extends Command {
                     ctx.drawImage(backgroundImage, 0, 0, width, height);
                     let startY = 480; // posição inicial vertical
                     let rowHeight = 105; // distância entre cada linha
-                    
+
                     ctx.font = '24px OpenSans';
                     for (let i = 0; i < usersData.length; i++) {
                         let user = await client.users.fetch(usersData[i].idU);
@@ -332,122 +332,112 @@ module.exports = class RankcoinsCommand extends Command {
             }
         }
 
-        //         if (args[0] == 'trocas') {//https://i.imgur.com/ocHdePY.png
-        //     try {
-        //         await this.client.database.users.aggregate([
-        //             { $sort: { 'evento.trocas': -1 } },
-        //             { $limit: 12 },
-        //             {
-        //                 $project: {
-        //                     idU: 1, // Inclui o campo idU no resultado
-        //                     trocas: '$evento.trocas' // Projeta o campo moeda1 dentro de evento
-        //                 }
-        //             }
-        //         ]).then(async (usuarios) => {
-        //             const userIdsArray = usuarios.map(user => user.idU);
-        //             const arrayCoins = usuarios.map(user => user.trocas);
-        //
-        //             // Criando a Imagem
-        //             const canvas = createCanvas(800, 500);
-        //             const ctx = canvas.getContext('2d');
-        //             const BG = await loadImage('https://i.imgur.com/ocHdePY.png');
-        //             ctx.drawImage(BG, 0, 0, canvas.width, canvas.height);
-        //
-        //             // ------------------------------------------------------------------- //
-        //
-        //             let positionOne = 100;
-        //
-        //             for (let i = 0; i < userIdsArray.slice(0, 6).length; i++) {
-        //                 const user = await this.client.users.fetch(userIdsArray[i]);
-        //                 const userBank = arrayCoins[i];
-        //
-        //                 const NAME = user.username.slice(0, 16);
-        //
-        //                 ctx.font = '18px "Poppins_Light"';
-        //                 ctx.fillStyle = '#ffffff';
-        //                 ctx.textAlign = 'left';
-        //
-        //                 ctx.fillText(NAME, 125, positionOne + 5);
-        //
-        //                 ctx.font = '25px "Poppins"';
-        //                 ctx.fillStyle = '#ffffff';
-        //                 ctx.textAlign = 'center';
-        //
-        //                 ctx.fillText(`${Util.toAbbrev(userBank)}`, 330, positionOne + 5);
-        //
-        //                 ctx.font = '13px "Poppins"';
-        //
-        //                 ctx.fillText('Trocas', 330, positionOne + 20);
-        //
-        //                 ctx.save();
-        //                 ctx.beginPath();
-        //                 ctx.arc(85, positionOne, 29, 0, Math.PI * 2, true);
-        //                 ctx.closePath();
-        //                 ctx.clip();
-        //
-        //                 const AVATAR = await loadImage(
-        //                     user.displayAvatarURL({ dynamic: false, extension: 'png' })
-        //                 );
-        //
-        //                 ctx.drawImage(AVATAR, 47.5, positionOne - 45, 75, 75);
-        //
-        //                 ctx.restore();
-        //
-        //                 positionOne = positionOne + 70;
-        //             }
-        //
-        //             let positionTwo = 100;
-        //
-        //             for (let userId of userIdsArray.slice(6, 12)) {
-        //                 const index = userIdsArray.indexOf(userId);
-        //                 const userBank = arrayCoins[index];
-        //                 const user = await this.client.users.fetch(userId);
-        //
-        //                 const NAME = user.username.slice(0, 16);
-        //
-        //                 ctx.font = '18px "Poppins_Light"';
-        //                 ctx.fillStyle = '#ffffff';
-        //                 ctx.textAlign = 'left';
-        //
-        //                 ctx.fillText(NAME, 520, positionTwo + 5);
-        //
-        //                 ctx.font = '23px "Poppins"';
-        //                 ctx.fillStyle = '#ffffff';
-        //                 ctx.textAlign = 'center';
-        //
-        //                 ctx.fillText(Util.toAbbrev(userBank), 720, positionTwo + 5);
-        //
-        //                 ctx.font = '13px "Poppins"';
-        //
-        //                 ctx.fillText('Trocas', 720, positionTwo + 20);
-        //
-        //                 ctx.save();
-        //                 ctx.beginPath();
-        //                 ctx.arc(480, positionTwo, 29, 0, Math.PI * 2, true);
-        //                 ctx.closePath();
-        //                 ctx.clip();
-        //
-        //                 const AVATAR = await loadImage(
-        //                     user.displayAvatarURL({ dynamic: false, extension: 'png' })
-        //                 );
-        //
-        //                 ctx.drawImage(AVATAR, 447.5, positionTwo - 45, 75, 75);
-        //
-        //                 ctx.restore();
-        //
-        //                 positionTwo = positionTwo + 70;
-        //             }
-        //
-        //             // ------------------------------------------------------------------- //
-        //
-        //             const attach = new AttachmentBuilder(canvas.toBuffer(), 'Ranking.png');
-        //
-        //             message.reply({ files: [attach] }).catch();
-        //         });
-        //     } catch (err) {
-        //         console.log(`ERRO NO COMANDO RANK TROCAS\nERROR: ${err}`);
-        //     }
-        // }
+        if (args[0] == 'meias') {
+            try {
+                // Verifica se o evento está pausado
+                const clientData = await this.client.database.client.findOne({ _id: this.client.user.id });
+                if (clientData?.eventoPausado) {
+                    return message.reply('❄️ O Evento de Natal está pausado no momento. Aguarde!');
+                }
+
+                // Cooldown do comando
+                const cooldownSeconds = 20;
+                const now = Date.now();
+                const guildId = message.guild.id;
+
+                if (cooldowns.has(guildId + '_meias')) {
+                    const lastExecution = cooldowns.get(guildId + '_meias');
+                    const timeDifference = now - lastExecution;
+                    const remainingCooldown = cooldownSeconds * 1000 - timeDifference;
+
+                    if (remainingCooldown > 0) {
+                        return message.reply(`Aguarde ${Math.ceil(remainingCooldown / 1000)} segundos antes de usar o comando novamente.`).then((msg) => setTimeout(() => msg.delete(), 1000 * 10));
+                    }
+                }
+
+                // Busca usuários ordenados por total de meias já obtidas (evento.moeda2)
+                const usersData = await this.client.database.users.find({ 'evento.moeda2': { $gt: 0 } })
+                    .sort({ 'evento.moeda2': -1 })
+                    .limit(12);
+
+                if (usersData.length === 0) {
+                    return message.reply('Ainda não há usuários com meias natalinas no ranking!');
+                }
+
+                // Criando a Imagem
+                const canvas = createCanvas(800, 500);
+                const ctx = canvas.getContext('2d');
+                let BG = await loadImage('./src/Assets/img/default/general/ranknatal.png');
+                ctx.drawImage(BG, 0, 0, canvas.width, canvas.height);
+
+                // Layout baseado no Photoshop - ajustado
+                const startY = 175;      // Posição Y inicial (+15px)
+                const rowHeight = 58;    // Espaçamento entre linhas
+
+                // Coluna esquerda (posições 1-6)
+                const leftAvatarX = 52;
+                const leftNameX = 85;
+                const leftMeiasX = 320;
+
+                // Coluna direita (posições 7-12)
+                const rightAvatarX = 448;
+                const rightNameX = 480;
+                const rightMeiasX = 724;
+
+                const avatarRadius = 25;
+
+                for (let i = 0; i < Math.min(usersData.length, 12); i++) {
+                    const userData = usersData[i];
+                    const user = await this.client.users.fetch(userData.idU).catch(() => null);
+                    if (!user) continue;
+
+                    const meias = userData.evento?.moeda2 || 0; // Total histórico
+                    const NAME = user.username.slice(0, 12);
+
+                    // Determina coluna e posição Y
+                    const isLeftColumn = i < 6;
+                    const rowIndex = isLeftColumn ? i : i - 6;
+                    const y = startY + rowIndex * rowHeight;
+
+                    const avatarX = isLeftColumn ? leftAvatarX : rightAvatarX;
+                    const nameX = isLeftColumn ? leftNameX : rightNameX;
+                    const meiasX = isLeftColumn ? leftMeiasX : rightMeiasX;
+
+                    // Avatar circular
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(avatarX, y, avatarRadius, 0, Math.PI * 2, true);
+                    ctx.closePath();
+                    ctx.clip();
+
+                    const AVATAR = await loadImage(user.displayAvatarURL({ extension: 'png', size: 128 })).catch(() => null);
+                    if (AVATAR) {
+                        ctx.drawImage(AVATAR, avatarX - avatarRadius, y - avatarRadius, avatarRadius * 2, avatarRadius * 2);
+                    }
+                    ctx.restore();
+
+                    // Nome do usuário
+                    ctx.font = '18px "Poppins"';
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign = 'left';
+                    ctx.fillText(NAME, nameX, y + 6);
+
+                    // Quantidade de meias
+                    ctx.font = 'Bold 20px "Poppins"';
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign = 'left';
+                    ctx.fillText(`${Util.toAbbrev(meias)}`, meiasX, y + 6);
+                }
+
+                const attach = new AttachmentBuilder(canvas.toBuffer('image/png', { quality: 1.0 }), { name: `RankMeias_${message.author.tag}.png` });
+                message.reply({ files: [attach] });
+
+                cooldowns.set(guildId + '_meias', now);
+                BG = null;
+            } catch (err) {
+                console.log(`ERRO NO COMANDO RANK MEIAS\nERROR: ${err}`);
+            }
+        }
 
         if (args[0] == 'crimes') {
             try {

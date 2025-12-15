@@ -10,6 +10,7 @@ module.exports = class natalModule {
         this.isActive = false;
         this.currentWord = null;
         this.currentChannel = null;
+        this.lastChannelId = null; // Para variar os canais
 
         // ===== CONFIGURAÇÕES DO EVENTO =====
         this.config = {
@@ -20,17 +21,17 @@ module.exports = class natalModule {
             ],
 
             // Intervalo entre drops (em milissegundos) - 10 segundos para teste
-            intervalMs: 130000,
+            intervalMs: 60000,
 
             // Tempo para responder (em milissegundos) - 30 segundos
             timeoutMs: 30000,
 
             // Recompensas
-            pointsReward: 10,  // Meias natalinas por acerto
+            pointsReward: 50,  // Meias natalinas por acerto
             xpReward: 25,      // XP por acerto
 
             // Emoji do Papai Noel
-            santaEmoji: '🎅'
+            santaEmoji: '<:santaclaus2:1447757902201749615>'
         };
 
         // Palavras natalinas para o jogo
@@ -43,8 +44,26 @@ module.exports = class natalModule {
         ];
     }
 
+    // Função para calcular shard ID (mesma do giveawayModule)
+    getShardId(snowflake, totalShards) {
+        return Number((BigInt(snowflake) >> 22n) % BigInt(totalShards));
+    }
+
     execute() {
         try {
+            // ID do servidor do evento
+            const eventGuildId = '1447705346586968186';
+            const totalShards = 4; // Número manual de shards
+            const currentShardId = this.client.shard?.ids?.[0] ?? 0;
+
+            // Calcula a shard correta para o servidor do evento
+            const targetShardId = this.getShardId(eventGuildId, totalShards);
+
+            if (currentShardId !== targetShardId) {
+                this.client.logger.info(`Módulo de Natal ignorado na shard ${currentShardId} (servidor está na shard ${targetShardId})`, 'natalModule');
+                return;
+            }
+
             this.client.logger.info('Módulo de Natal iniciado!', 'natalModule');
             this.startLoop();
         } catch (err) {
@@ -58,6 +77,10 @@ module.exports = class natalModule {
             if (this.isActive) return; // Não iniciar novo drop se já houver um ativo
 
             try {
+                // Verifica se o evento está pausado
+                const clientData = await this.client.database.client.findOne({ _id: this.client.user.id });
+                if (clientData?.eventoPausado) return; // Evento pausado, não enviar drop
+
                 await this.sendDrop();
             } catch (err) {
                 this.client.logger?.warn?.(`Erro no drop de Natal: ${err.message}`, 'natalModule');
@@ -67,8 +90,12 @@ module.exports = class natalModule {
     }
 
     async sendDrop() {
-        // Seleciona um canal aleatório
-        const randomChannelId = this.config.channelIds[Math.floor(Math.random() * this.config.channelIds.length)];
+        // Seleciona um canal aleatório diferente do último usado
+        let availableChannels = this.config.channelIds.filter(id => id !== this.lastChannelId);
+        if (availableChannels.length === 0) availableChannels = this.config.channelIds;
+
+        const randomChannelId = availableChannels[Math.floor(Math.random() * availableChannels.length)];
+        this.lastChannelId = randomChannelId; // Salva para evitar repetição
 
         const channel = await this.client.channels.fetch(randomChannelId).catch(() => null);
         if (!channel) {
@@ -83,7 +110,7 @@ module.exports = class natalModule {
 
         // Envia a mensagem do Papai Noel
         const dropMessage = await channel.send({
-            content: `${this.config.santaEmoji} **O Papai Noel apareceu!**\n\n🎄 Digite a palavra **\`${this.currentWord}\`** para ganhar **${this.config.pointsReward} Meias Natalinas** <:christmassock:1447757955415150743> e **${this.config.xpReward} XP**!\n\n-# ⏰ Você tem ${this.config.timeoutMs / 1000} segundos!`
+            content: `${this.config.santaEmoji} **O Papai Noel apareceu!**\n\n<:christmastree:1447757922875740291> Digite a palavra **\`${this.currentWord}\`** para ganhar **${this.config.pointsReward} Meias Natalinas** <:christmassock:1447757955415150743> e **${this.config.xpReward} XP**!\n\n-# <:sandclock:1447764508235005994> Você tem ${this.config.timeoutMs / 1000} segundos!`
         });
 
         // Cria um collector para aguardar respostas
@@ -99,12 +126,13 @@ module.exports = class natalModule {
 
         collector.on('collect', async (msg) => {
             try {
-                // Atualiza os pontos do usuário
+                // Atualiza os pontos do usuário (moeda1 = saldo atual, moeda2 = total histórico)
                 await this.client.database.users.findOneAndUpdate(
                     { idU: msg.author.id },
                     {
                         $inc: {
                             'evento.moeda1': this.config.pointsReward,
+                            'evento.moeda2': this.config.pointsReward, // Total histórico
                             'Exp.xp': this.config.xpReward
                         }
                     },
@@ -119,7 +147,7 @@ module.exports = class natalModule {
                 await channel.send({
                     content: `<:present_nerd:1447714759863435354> **Parabéns ${msg.author}!** Você capturou o presente do Papai Noel!\n\n` +
                         `<:christmassock:1447757955415150743> **+${this.config.pointsReward} Meias Natalinas** (Total: **${totalPontos}**)\n` +
-                        `✨ **+${this.config.xpReward} XP**`
+                        `<:jinglebell:1447706160978198660> **+${this.config.xpReward} XP**`
                 });
 
                 // Deleta a mensagem original do drop

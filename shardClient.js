@@ -6,7 +6,7 @@ class Shard extends ShardingManager {
     constructor() {
         super('./src/KosameLauncher.js', {
             mode: 'process',
-            totalShards: 'auto',
+            totalShards: 4,
             respawn: true,
             execArgv: ['--trace-warnings'],
             shardArgs: ['--ansi', '--color'],

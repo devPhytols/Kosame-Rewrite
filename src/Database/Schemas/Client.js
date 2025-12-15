@@ -8,7 +8,8 @@ const clientSchema = new Schema({
     blacklist: { type: Array, default: [] },
     Sban: { type: Array, default: [] },
     seasonLock: { type: Boolean, default: false },
-    seasonLockMsg: { type: String, default: 'O ranking de temporada está temporariamente indisponível.' }
+    seasonLockMsg: { type: String, default: 'O ranking de temporada está temporariamente indisponível.' },
+    eventoPausado: { type: Boolean, default: false } // Pausa o evento de Natal
 });
 
 const clientModel = model('Client', clientSchema);

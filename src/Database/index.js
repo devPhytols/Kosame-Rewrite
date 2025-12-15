@@ -17,7 +17,7 @@ module.exports = class dbConnection {
                 keepAliveInitialDelay: 300000
             });
 
-             connection.on('error', (err) => {
+            connection.on('error', (err) => {
                 this.client.logger.error(err.stack, 'Database');
             });
 

@@ -32,6 +32,12 @@ module.exports = class LojinhaCommand extends Command {
      * @param {String[]} args
      */
     async commandExecute({ message }) {
+        // Verifica se o evento está pausado
+        const clientData = await this.client.database.client.findOne({ _id: this.client.user.id });
+        if (clientData?.eventoPausado) {
+            return message.reply('❄️ O Evento de Natal está pausado no momento. Aguarde!');
+        }
+
         // Container principal
         const container = new ContainerBuilder()
             .setAccentColor(0xffffff);
@@ -55,7 +61,7 @@ module.exports = class LojinhaCommand extends Command {
 
         // Lista de itens disponíveis
         const itensText = new TextDisplayBuilder()
-            .setContent('<:itens:1447724488882913390> **Layout Natalino por 30 dias.**\n<:itens:1447724488882913390> **1B de Coins.**\n<:itens:1447724488882913390> **XP duplo por 30 dias.**\n<:itens:1447724488882913390> **VIP de 1 mês.**\n<:itens:1447724488882913390> **Slot personalizado.**\n<:itens:1447724488882913390> **Moldura.**');
+            .setContent('<:itens:1447724488882913390> **Layout Natalino por 30 dias.**\n<:itens:1447724488882913390> **1B de Coins.**\n<:itens:1447724488882913390> **XP duplo por 30 dias.**\n<:itens:1447724488882913390> **VIP de 15 dias.**\n<:itens:1447724488882913390> **Slot personalizado.**\n<:itens:1447724488882913390> **Moldura.**');
 
         // Separador 2
         const separator2 = new SeparatorBuilder()
@@ -68,7 +74,7 @@ module.exports = class LojinhaCommand extends Command {
 
         // Select Menu dentro do container
         const selectMenu = new StringSelectMenuBuilder()
-            .setCustomId('lojinha_categoria')
+            .setCustomId(`lojinha_categoria_${message.author.id}`)
             .setPlaceholder('🎄 Selecione uma opção')
             .addOptions([
                 {
@@ -98,7 +104,7 @@ module.exports = class LojinhaCommand extends Command {
             .addActionRowComponents(selectRow);
 
         // Envia a mensagem com o flag IS_COMPONENTS_V2
-        await message.channel.send({
+        await message.reply({
             components: [container],
             flags: MessageFlags.IsComponentsV2
         });

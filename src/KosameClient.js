@@ -13,7 +13,7 @@ module.exports = class Kosame extends Client {
         this.team = ['848662735357083698', '1003080753384542248', '1215657370538086440', '1348133269522350110'];
         this.logger = new Logger();
         this.util = new Util();
-        this.gwCache = [ ];
+        this.gwCache = [];
         this.database = {
             client: clientModel,
             guilds: guildModel,

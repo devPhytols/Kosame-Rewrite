@@ -29,6 +29,7 @@ const userSchema = new Schema({
     betdown: { type: Number, default: 0 },
     betdown2: { type: Number, default: 0 },
     bank: { type: Number, default: 0 },
+    xpBoost: { type: Number, default: 0 }, // Timestamp de expiração do XP duplo
     globalstats: {
         totalBets: { type: Number, default: 0 },
         wins: { type: Number, default: 0 },
@@ -194,8 +195,12 @@ const userSchema = new Schema({
     insignias: {
         type: [String], // Armazena os caminhos das imagens das insígnias equipadas
         default: [] // Inicializa vazio
-    },    
+    },
     equippedInsignias: { type: [String], default: [] }, // Códigos das insígnias equipadas
+    cards: {
+        type: [String], // Armazena os códigos dos cards que o usuário possui
+        default: [] // Inicializa vazio
+    },
     layouts: {
         white: {
             equipped: { type: Boolean, default: true },

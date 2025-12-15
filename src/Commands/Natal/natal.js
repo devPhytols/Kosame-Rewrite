@@ -62,11 +62,11 @@ module.exports = class ContainerCommand extends Command {
         const section1 = new SectionBuilder()
             .addTextDisplayComponents(
                 new TextDisplayBuilder()
-                    .setContent('<:kosame_text:1089663498503602189> **Leia as regras do evento.**\n-# ➜ Entenda como participar e ganhar!')
+                    .setContent('<:kosame_text:1089663498503602189> **Leia as regras do evento. <:rules:1447757878441021533>**\n-# ➜ Entenda como participar e ganhar!')
             )
             .setButtonAccessory(
                 new ButtonBuilder()
-                    .setLabel('Ver regras do evento')
+                    .setLabel('Explicação do Evento')
                     .setStyle(ButtonStyle.Link)
                     .setURL('https://ptb.discord.com/channels/1447705346586968186/1447705347744727163')
             );
@@ -79,7 +79,7 @@ module.exports = class ContainerCommand extends Command {
             )
             .setButtonAccessory(
                 new ButtonBuilder()
-                    .setLabel('Ver meus pontos')
+                    .setLabel('Veja minhas meias')
                     .setStyle(ButtonStyle.Link)
                     .setURL('https://ptb.discord.com/channels/1447705346586968186/1447705347744727163')
             );
