@@ -27,7 +27,7 @@ module.exports = class natalModule {
             timeoutMs: 30000,
 
             // Recompensas
-            pointsReward: 50,  // Meias natalinas por acerto
+            pointsReward: 10,  // Meias natalinas por acerto
             xpReward: 25,      // XP por acerto
 
             // Emoji do Papai Noel
@@ -36,11 +36,7 @@ module.exports = class natalModule {
 
         // Palavras natalinas para o jogo
         this.palavras = [
-            'panetone', 'peru', 'rabanada', 'tender', 'vinho',
-            'bolo', 'pudim', 'presente', 'estrela', 'sino',
-            'rena', 'papainoel', 'boneco', 'floco', 'guirlanda',
-            'vela', 'laco', 'treno', 'duende', 'anjo',
-            'neve', 'arvore', 'natal', 'meias', 'lareira'
+            'panetone', 'peru', 'rabanada', 'tender', 'vinho', 'bolo', 'pudim', 'presente', 'estrela', 'sino', 'rena', 'papainoel', 'boneco', 'floco', 'vela', 'laco', 'treno', 'duende', 'anjo', 'neve', 'arvore', 'natal', 'meias', 'lareira', 'manjedoura', 'cantata', 'coral', 'alegria', 'familia', 'ceia', 'brinde', 'confraternizacao', 'amigo', 'cartao', 'feliz', 'ano', 'reveillon', 'fogos', 'luzes', 'enfeite', 'bola', 'pinheiro', 'folhas', 'azevinho', 'bastao', 'gengibre', 'canela', 'chocolate', 'biscoito', 'decoracao', 'fita', 'embrulho', 'pacote', 'surpresa', 'desejo', 'paz', 'amor', 'esperanca', 'gratidao', 'prosperidade', 'saude', 'harmonia', 'uniao'
         ];
     }
 

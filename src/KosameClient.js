@@ -114,10 +114,10 @@ module.exports = class Kosame extends Client {
                 return data;
             }
             case 'command': {
-                let data = await this.database.commands.findOne({ _id: id });
+                let data = await this.database?.command?.findOne({ _id: id });
 
                 if (!data) {
-                    data = await this.database.commands.create({ _id: id });
+                    data = await this.database?.command?.create({ _id: id });
                     console.log(`O comando: (${data._id}) teve a sua documentação criada com sucesso!`);
                 }
 
