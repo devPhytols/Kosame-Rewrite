@@ -30,7 +30,7 @@ module.exports = class ServerbanCommand extends Command {
      */
     async commandExecute({ message, args }) {
 
-        if (!['429679606946201600', '853082312899821598', '955460764720828426', '918536794167980032', '236651138747727872', '202938550360997888', '1348133269522350110'].includes(message.author.id)) return;
+        if (!['429679606946201600', '853082312899821598', '955460764720828426', '918536794167980032', '236651138747727872', '1348133269522350110'].includes(message.author.id)) return;
 
         const cliente = await this.client.database.client.findOne({ _id: this.client.user.id });
         const servidor = args[0];

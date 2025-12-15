@@ -195,7 +195,7 @@ module.exports = class VipCommand extends Command {
             });
         }
 
-        if (!['236651138747727872', '202938550360997888', '1348133269522350110', '752975738948550860', '848662735357083698', '522574474051059712', '1199229647943123014'].includes(message.author.id)) return;
+        if (!['236651138747727872', '1348133269522350110', '752975738948550860', '848662735357083698', '522574474051059712', '1199229647943123014'].includes(message.author.id)) return;
 
         const PHYTOLS2 = new ClientEmbed()
             .setColor('#BA2845')
@@ -219,7 +219,7 @@ module.exports = class VipCommand extends Command {
 
         if (['add', 'adicionar', 'setar'].includes(args[0].toLowerCase())) {
 
-            const allowedUsers = ['202938550360997888', '429679606946201600', '236651138747727872', '1348133269522350110']; // Substitua pelos IDs permitidos
+            const allowedUsers = ['429679606946201600', '236651138747727872', '1348133269522350110']; // Substitua pelos IDs permitidos
 
             if (message.guild.id !== '834191314328485889' && !allowedUsers.includes(message.author.id)) {
                 return message.reply('Este servidor não tem autorização para esse comando, os desenvolvedores foram informados!');

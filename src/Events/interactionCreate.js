@@ -132,7 +132,7 @@ module.exports = class interactionCreateEvent extends Event {
                     }
                 }
 
-                if (!['429679606946201600', '918536794167980032', '236651138747727872', '918536794167980032', '202938550360997888', '420728110326218755'].includes(message.author.id)) {
+                if (!['429679606946201600', '918536794167980032', '236651138747727872', '918536794167980032', '420728110326218755'].includes(message.author.id)) {
                     coldoownUser.add(message.author.id);
                     coldoownGuild.add(message.guild.id);
 

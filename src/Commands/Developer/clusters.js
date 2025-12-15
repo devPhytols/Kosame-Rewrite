@@ -24,7 +24,6 @@ module.exports = class ClustersCommand extends Command {
         const ALLOWED_IDS = [
             '236651138747727872', // Fernando
             '848662735357083698', // Rik
-            '202938550360997888', // Wayz
             '429679606946201600', // Thompson
             '885423103256195129' // Peeter
         ];

@@ -573,10 +573,30 @@ const InsigniaTypes = {
         description: 'Insígnia Personalizada do VIP Ruby.',
         imagePath: 'https://i.imgur.com/SoVHr1w.png'
     },
+    kurama2: {
+        name: 'Kurama',
+        description: 'Insígnia Personalizada do VIP Ruby.',
+        imagePath: 'https://i.imgur.com/YmEVnuA.png'
+    },
     cherry: {
         name: 'Cherry',
         description: 'Insígnia Personalizada do VIP Ruby.',
         imagePath: 'https://i.imgur.com/3D9nvqs.png'
+    },
+    palmeiras: {
+        name: 'Palmeiras',
+        description: 'Insígnia Personalizada do VIP Ruby.',
+        imagePath: 'https://i.imgur.com/bXC5RzP.png'
+    },
+    amaismais: {
+        name: 'A++',
+        description: 'Insígnia Personalizada do VIP Ruby.',
+        imagePath: 'https://i.imgur.com/iuDmCl8.png'
+    },
+    maysab: {
+        name: 'Maysa BBzinha',
+        description: 'Insígnia Personalizada do VIP Ruby.',
+        imagePath: 'https://i.imgur.com/lPIV4wG.png'
     },
     // ===> Insígnias Eventos <=== //
     X: {

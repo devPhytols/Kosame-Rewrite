@@ -9,7 +9,7 @@ module.exports = class Kosame extends Client {
         super(options);
         this.commands = new Collection();
         this.cooldowns = new Collection();
-        this.developers = ['202938550360997888', '429679606946201600', '236651138747727872'];
+        this.developers = ['429679606946201600', '236651138747727872'];
         this.team = ['848662735357083698', '1003080753384542248', '1215657370538086440', '1348133269522350110'];
         this.logger = new Logger();
         this.util = new Util();

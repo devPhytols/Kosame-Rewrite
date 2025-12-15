@@ -31,7 +31,7 @@ module.exports = class GlobalbanCommand extends Command {
      */
     async commandExecute({ message, args }) {
 
-        if (!['588058949211783184', '429679606946201600', '918536794167980032', '236651138747727872', '202938550360997888', '905478001972629514', '1348133269522350110'].includes(message.author.id)) return;
+        if (!['588058949211783184', '429679606946201600', '918536794167980032', '236651138747727872', '905478001972629514', '1348133269522350110'].includes(message.author.id)) return;
 
         const cliente = await this.client.database.client.findOne({ _id: this.client.user.id });
         const Webhook = new WebhookClient({ id: '1033947942895239168', token: 'rQokz-OWqGNh0ggWlsYAf_G-6mlXqOKnzTS5wfjz3LvTF-oK6LqOKSKqpIFmt-9og4zR' });

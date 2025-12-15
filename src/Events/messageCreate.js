@@ -60,7 +60,7 @@ module.exports = class messageCreateEvent extends Event {
                         return message.reply(`<:ksm_eita:1367974827868033106> **Eii** ${message.author}, notei um pequeno fluxo de uso nesse servidor!\n-# ㅤ<:ksm_set0:1367969325356683325> Você já pode utilizar o comando novamente.`);
                     }
 
-                    if (!['848662735357083698', '429679606946201600', '955460764720828426', '918536794167980032', '236651138747727872', '202938550360997888'].includes(message.author.id)) {
+                    if (!['848662735357083698', '429679606946201600', '955460764720828426', '918536794167980032', '236651138747727872'].includes(message.author.id)) {
                         if (client.manutenção) {
                             return message.reply(`<:ksm_man:1367969327155777627> **Olá** ${message.author}, estou passando por uma pequena atualização!\n-# ㅤ<:ksm_set0:1367969325356683325> Tente utilizar novamente em alguns minutos...`);
                         }
@@ -134,7 +134,7 @@ module.exports = class messageCreateEvent extends Event {
                         }).then((msg) => setTimeout(() => msg.delete().catch(() => { }), 1000 * 10));
                     });
 
-                    if (!['429679606946201600', '918536794167980032', '202938550360997888', '420728110326218755', '588058949211783184'].includes(message.author.id)) {
+                    if (!['429679606946201600', '918536794167980032', '420728110326218755', '588058949211783184'].includes(message.author.id)) {
                         coldoownGuild.add(message.guild.id);
 
                         setTimeout(() => {
