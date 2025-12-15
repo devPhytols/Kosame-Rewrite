@@ -20,8 +20,8 @@ module.exports = class natalModule {
                 '1447744198991417404'
             ],
 
-            // Intervalo entre drops (em milissegundos) - 10 segundos para teste
-            intervalMs: 60000,
+            // Intervalo entre drops (em milissegundos) - 20 minutos para teste
+            intervalMs: 1200000,
 
             // Tempo para responder (em milissegundos) - 30 segundos
             timeoutMs: 30000,
