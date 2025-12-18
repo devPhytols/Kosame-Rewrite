@@ -40,7 +40,28 @@ module.exports = class UserinfoCommand extends Command {
             user = message.mentions.users.first();
             if (!user) user = await this.client.users.fetch(args[0]).catch(() => message.author) || message.author;
         }
-        const userData = await fetch(`http://104.237.11.161:7777/api/ui/${user.id}`).then(res => res.json()).then(json => json[0]);
+
+        // Fetch API data with error handling
+        let userData;
+        try {
+            const response = await fetch(`http://104.237.11.161:7777/api/ui/${user.id}`);
+            const text = await response.text();
+            try {
+                const json = JSON.parse(text);
+                userData = json[0];
+            } catch {
+                // API returned non-JSON response
+                return message.reply('❌ A API de informações está indisponível no momento. Tente novamente mais tarde.');
+            }
+        } catch (err) {
+            this.client.logger?.warn?.(`Erro na API userinfo: ${err.message}`, 'userinfo');
+            return message.reply('❌ Não foi possível conectar à API de informações. Tente novamente mais tarde.');
+        }
+
+        if (!userData || !userData.userData) {
+            return message.reply('❌ Não foi possível obter informações deste usuário.');
+        }
+
         let insig = (time) => {
             return {
                 1: '<:boost1:942750520139989032>',

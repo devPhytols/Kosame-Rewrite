@@ -22,7 +22,7 @@ new (require('../src/KosameClient'))({
         Partials.GuildMember
     ],
     allowedMentions: {
-        parse: ['users'],
+        parse: ['users', 'roles'],
         repliedUser: true
     },
     cacheWithLimits: {

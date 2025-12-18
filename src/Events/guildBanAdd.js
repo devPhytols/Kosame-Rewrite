@@ -31,7 +31,9 @@ module.exports = class guildBanAddEvent extends Event {
                     .setFooter({ text: ban.guild.name, iconURL: null })
                     .setTimestamp();
                 try {
-                    await this.client.channels.cache.get(server.logs.logsBan.channel).send({
+                    const logChannel = this.client.channels.cache.get(server.logs.logsBan.channel);
+                    if (!logChannel) return;
+                    await logChannel.send({
                         embeds: [msgEmbedLog]
                     });
                 } catch (error) {
@@ -54,7 +56,9 @@ module.exports = class guildBanAddEvent extends Event {
                     .setFooter({ text: ban.guild.name, iconURL: null })
                     .setTimestamp();
                 try {
-                    await this.client.channels.cache.get(server.logs.logsBan.channel).send({
+                    const logChannel = this.client.channels.cache.get(server.logs.logsBan.channel);
+                    if (!logChannel) return;
+                    await logChannel.send({
                         embeds: [msgEmbedLog]
                     });
                 } catch (error) {

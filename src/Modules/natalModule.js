@@ -4,6 +4,9 @@
  * Usuários devem digitar a palavra correta para ganhar pontos e XP
  */
 
+const { createCanvas } = require('canvas');
+const { AttachmentBuilder } = require('discord.js');
+
 module.exports = class natalModule {
     constructor(client) {
         this.client = client;
@@ -21,13 +24,13 @@ module.exports = class natalModule {
             ],
 
             // Intervalo entre drops (em milissegundos) - 20 minutos para teste
-            intervalMs: 1200000,
+            intervalMs: 600000,
 
             // Tempo para responder (em milissegundos) - 30 segundos
-            timeoutMs: 30000,
+            timeoutMs: 20000,
 
             // Recompensas
-            pointsReward: 10,  // Meias natalinas por acerto
+            pointsReward: 5,  // Meias natalinas por acerto
             xpReward: 25,      // XP por acerto
 
             // Emoji do Papai Noel
@@ -36,8 +39,45 @@ module.exports = class natalModule {
 
         // Palavras natalinas para o jogo
         this.palavras = [
-            'panetone', 'peru', 'rabanada', 'tender', 'vinho', 'bolo', 'pudim', 'presente', 'estrela', 'sino', 'rena', 'papainoel', 'boneco', 'floco', 'vela', 'laco', 'treno', 'duende', 'anjo', 'neve', 'arvore', 'natal', 'meias', 'lareira', 'manjedoura', 'cantata', 'coral', 'alegria', 'familia', 'ceia', 'brinde', 'confraternizacao', 'amigo', 'cartao', 'feliz', 'ano', 'reveillon', 'fogos', 'luzes', 'enfeite', 'bola', 'pinheiro', 'folhas', 'azevinho', 'bastao', 'gengibre', 'canela', 'chocolate', 'biscoito', 'decoracao', 'fita', 'embrulho', 'pacote', 'surpresa', 'desejo', 'paz', 'amor', 'esperanca', 'gratidao', 'prosperidade', 'saude', 'harmonia', 'uniao'
+            'panetone', 'peru', 'rabanada', 'tender', 'vinho', 'bolo', 'pudim', 'presente', 'estrela', 'sino', 'rena', 'papainoel', 'boneco', 'floco', 'vela', 'laco', 'treno', 'duende', 'anjo', 'neve', 'arvore', 'natal', 'meias', 'lareira', 'manjedoura', 'cantata', 'coral', 'alegria', 'familia', 'ceia', 'brinde', 'amigo', 'cartao', 'feliz', 'fogos', 'luzes', 'enfeite', 'bola', 'pinheiro', 'azevinho', 'gengibre', 'canela', 'chocolate', 'biscoito', 'decoracao', 'fita', 'embrulho', 'pacote', 'surpresa', 'desejo', 'paz', 'amor', 'esperanca', 'gratidao', 'saude', 'harmonia', 'uniao'
         ];
+    }
+
+    /**
+     * Gera uma imagem com a palavra para evitar bots
+     */
+    generateWordImage(word) {
+        const canvas = createCanvas(300, 80);
+        const ctx = canvas.getContext('2d');
+
+        // Fundo com gradiente natalino
+        const gradient = ctx.createLinearGradient(0, 0, 300, 0);
+        gradient.addColorStop(0, '#1a472a');
+        gradient.addColorStop(0.5, '#2d5a3d');
+        gradient.addColorStop(1, '#1a472a');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 300, 80);
+
+        // Borda decorativa
+        ctx.strokeStyle = '#c41e3a';
+        ctx.lineWidth = 4;
+        ctx.strokeRect(2, 2, 296, 76);
+
+        // Texto da palavra
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 36px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        // Adiciona sombra
+        ctx.shadowColor = '#000000';
+        ctx.shadowBlur = 4;
+        ctx.shadowOffsetX = 2;
+        ctx.shadowOffsetY = 2;
+
+        ctx.fillText(word.toUpperCase(), 150, 40);
+
+        return canvas.toBuffer('image/png');
     }
 
     // Função para calcular shard ID (mesma do giveawayModule)
@@ -104,9 +144,14 @@ module.exports = class natalModule {
         this.currentChannel = channel;
         this.isActive = true;
 
+        // Gera a imagem com a palavra
+        const wordImageBuffer = this.generateWordImage(this.currentWord);
+        const attachment = new AttachmentBuilder(wordImageBuffer, { name: 'palavra.png' });
+
         // Envia a mensagem do Papai Noel
         const dropMessage = await channel.send({
-            content: `${this.config.santaEmoji} **O Papai Noel apareceu!**\n\n<:christmastree:1447757922875740291> Digite a palavra **\`${this.currentWord}\`** para ganhar **${this.config.pointsReward} Meias Natalinas** <:christmassock:1447757955415150743> e **${this.config.xpReward} XP**!\n\n-# <:sandclock:1447764508235005994> Você tem ${this.config.timeoutMs / 1000} segundos!`
+            content: `${this.config.santaEmoji} **O Papai Noel apareceu!**\n\n<:christmastree:1447757922875740291> Digite a palavra da imagem para ganhar **${this.config.pointsReward} Meias Natalinas** <:christmassock:1447757955415150743> e **${this.config.xpReward} XP**!\n\n-# <:sandclock:1447764508235005994> Você tem ${this.config.timeoutMs / 1000} segundos!\n<@&1267294402158530703>`,
+            files: [attachment]
         });
 
         // Cria um collector para aguardar respostas
@@ -162,7 +207,8 @@ module.exports = class natalModule {
             // Se ninguém acertou
             if (collected.size === 0) {
                 await dropMessage.edit({
-                    content: `${this.config.santaEmoji} **O Papai Noel foi embora...**\n\n<:snowflakes:1447707292521726134> Ninguém digitou a palavra a tempo!\n-# Fique atento para o próximo drop!`
+                    content: `${this.config.santaEmoji} **O Papai Noel foi embora...**\n\n<:snowflakes:1447707292521726134> Ninguém digitou a palavra a tempo!\n-# Fique atento para o próximo drop!`,
+                    files: [] // Remove a imagem
                 }).catch(() => { });
 
                 // Deleta após 5 segundos

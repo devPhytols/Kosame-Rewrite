@@ -33,6 +33,11 @@ module.exports = class ContainerCommand extends Command {
      * @param {String[]} args
      */
     async commandExecute({ message }) {
+        // Verifica se é desenvolvedor
+        // if (!this.client.developers.includes(message.author.id)) {
+        //     return message.reply('❌ Apenas desenvolvedores podem usar este comando.');
+        // }
+
         // Container principal com cor de acento vermelho natalino
         const container = new ContainerBuilder()
             .setAccentColor(0xffffff);
@@ -68,7 +73,7 @@ module.exports = class ContainerCommand extends Command {
                 new ButtonBuilder()
                     .setLabel('Explicação do Evento')
                     .setStyle(ButtonStyle.Link)
-                    .setURL('https://ptb.discord.com/channels/1447705346586968186/1447705347744727163')
+                    .setURL('https://ptb.discord.com/channels/834191314328485889/1449839577014730822')
             );
 
         // Seção 2: Drops de pontos
@@ -81,7 +86,7 @@ module.exports = class ContainerCommand extends Command {
                 new ButtonBuilder()
                     .setLabel('Veja minhas meias')
                     .setStyle(ButtonStyle.Link)
-                    .setURL('https://ptb.discord.com/channels/1447705346586968186/1447705347744727163')
+                    .setURL('https://ptb.discord.com/channels/834191314328485889/1449839577014730822')
             );
 
         // Separador 2
@@ -103,7 +108,7 @@ module.exports = class ContainerCommand extends Command {
                 new ButtonBuilder()
                     .setLabel('Montar minha árvore')
                     .setStyle(ButtonStyle.Link)
-                    .setURL('https://ptb.discord.com/channels/1447705346586968186/1447705347744727163')
+                    .setURL('https://ptb.discord.com/channels/834191314328485889/1449839577014730822')
             );
 
         // Seção 4: Lojinha de Natal
@@ -116,7 +121,7 @@ module.exports = class ContainerCommand extends Command {
                 new ButtonBuilder()
                     .setLabel('Abrir lojinha de Natal')
                     .setStyle(ButtonStyle.Link)
-                    .setURL('https://ptb.discord.com/channels/1447705346586968186/1447705347744727163')
+                    .setURL('https://ptb.discord.com/channels/834191314328485889/1449839577014730822')
             );
 
         // Seção 5: Ranking
@@ -129,7 +134,7 @@ module.exports = class ContainerCommand extends Command {
                 new ButtonBuilder()
                     .setLabel('Ver ranking do evento')
                     .setStyle(ButtonStyle.Link)
-                    .setURL('https://ptb.discord.com/channels/1447705346586968186/1447705347744727163')
+                    .setURL('https://ptb.discord.com/channels/834191314328485889/1449839577014730822')
             );
 
         // Adiciona todos os componentes ao container
@@ -147,7 +152,7 @@ module.exports = class ContainerCommand extends Command {
             .addSectionComponents(section5);
 
         // Envia a mensagem com o flag IS_COMPONENTS_V2
-        await message.channel.send({
+        await message.reply({
             components: [container],
             flags: MessageFlags.IsComponentsV2
         });

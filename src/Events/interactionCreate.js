@@ -761,16 +761,16 @@ module.exports = class interactionCreateEvent extends Event {
                     const novoResgate = resgatesData[interaction.user.id][itemId];
 
                     // Log para testes
-                    console.log(`[LOJINHA] Compra realizada:`);
-                    console.log(`  - Usuário: ${interaction.user.tag} (${interaction.user.id})`);
-                    console.log(`  - Item: ${itemId}`);
-                    console.log(`  - Preço: ${preco} meias`);
-                    console.log(`  - Saldo anterior: ${saldo}`);
-                    console.log(`  - Novo saldo: ${saldo - preco}`);
-                    console.log(`  - Resgates: ${novoResgate}${limite ? `/${limite}` : ''}`);
+                    // console.log(`[LOJINHA] Compra realizada:`);
+                    // console.log(`  - Usuário: ${interaction.user.tag} (${interaction.user.id})`);
+                    // console.log(`  - Item: ${itemId}`);
+                    // console.log(`  - Preço: ${preco} meias`);
+                    // console.log(`  - Saldo anterior: ${saldo}`);
+                    // console.log(`  - Novo saldo: ${saldo - preco}`);
+                    // console.log(`  - Resgates: ${novoResgate}${limite ? `/${limite}` : ''}`);
 
                     // Webhook para canal de logs do evento
-                    const webhookUrl = 'https://ptb.discord.com/api/webhooks/1449870075661390045/HRHHs-9a-CFT7tHv5b02Mq3hD7NZjqe3geexHrq_xIlKolOnCg4sXyjiRmfD85VI8Iy4'; // Substitua pela sua webhook
+                    const webhookUrl = 'https://ptb.discord.com/api/webhooks/1450255146872471694/ZlIEwO2bcnPftpL-FDtgjP7_qFWjXbzhUf-W9b3BZoFXHvKNoWnk6uxFqSw9J7N95Nya'; // Substitua pela sua webhook
                     const axios = require('axios');
                     const webhookEmbed = {
                         embeds: [{
@@ -1451,10 +1451,10 @@ module.exports = class interactionCreateEvent extends Event {
                         return interaction.reply({ content: '❌ Apenas desenvolvedores podem usar isso.', flags: MessageFlags.Ephemeral });
                     }
 
-                    // Zera as meias de todos os usuários (saldo atual e total histórico)
+                    // Zera as meias de todos os usuários (saldo atual, total histórico e progresso da árvore)
                     const result = await this.client.database.users.updateMany(
-                        { $or: [{ 'evento.moeda1': { $gt: 0 } }, { 'evento.moeda2': { $gt: 0 } }] },
-                        { $set: { 'evento.moeda1': 0, 'evento.moeda2': 0, 'evento.trocas': 0 } }
+                        { $or: [{ 'evento.moeda1': { $gt: 0 } }, { 'evento.moeda2': { $gt: 0 } }, { 'evento.actualLevel': { $gt: 0 } }] },
+                        { $set: { 'evento.moeda1': 0, 'evento.moeda2': 0, 'evento.trocas': 0, 'evento.actualLevel': 0 } }
                     );
 
                     const embed = new EmbedBuilder()

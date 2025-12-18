@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable require-await */
-const { ApplicationCommandType, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { ApplicationCommandType, ActionRowBuilder, ButtonBuilder, ButtonStyle, MessageFlags } = require('discord.js');
 const { ClientEmbed } = require('../../Structures/ClientEmbed.js');
 const { Command } = require('../../Structures/Structures.js');
 const { Util } = require('../../Utils/Util.js');
@@ -56,7 +56,7 @@ module.exports = class ShoppingCommand extends Command {
         collector.on('collect', async i => {
 
             if (i.user.id !== message.author.id) {
-                return await i.reply({ content: '👀 Esta compra não pertence a você!', ephemeral: true });
+                return await i.reply({ content: '👀 Esta compra não pertence a você!', flags: MessageFlags.Ephemeral });
             }
 
             const userShop = await this.client.database.users.findOne({ idU: message.author.id });
@@ -66,10 +66,10 @@ module.exports = class ShoppingCommand extends Command {
                 const cUser = await this.client.database.users.findOne({ idU: message.author.id });
 
                 if (category === 'molduras' && cUser.vip.upgrade < 1) {
-                    return await i.reply({ content: 'Você precisa ser VIP para utilizar molduras!', ephemeral: true });
+                    return await i.reply({ content: 'Você precisa ser VIP para utilizar molduras!', flags: MessageFlags.Ephemeral });
                 }
                 if (category === 'help') {
-                    return await i.reply({ content: 'Se você tem alguma dúvida sobre o meu Shopping, você pode acessar meu Servidor Oficial! https://discord.gg/kosame', ephemeral: true });
+                    return await i.reply({ content: 'Se você tem alguma dúvida sobre o meu Shopping, você pode acessar meu Servidor Oficial! https://discord.gg/kosame', flags: MessageFlags.Ephemeral });
                 }
                 await showPage(i, category, page, userShop);
             } else if (i.customId === 'prev_page') {
@@ -82,17 +82,17 @@ module.exports = class ShoppingCommand extends Command {
                 const itemIndex = i.customId.split('_')[1];
                 const item = store[category][itemIndex];
                 const user = await this.client.database.users.findOne({ idU: message.author.id });
-                
+
                 if (category === 'backgrounds' && user.backgrounds.includes(item.name)) {
-                    return await i.reply({ content: `Você já possui o background ${item.name}.`, ephemeral: true });
+                    return await i.reply({ content: `Você já possui o background ${item.name}.`, flags: MessageFlags.Ephemeral });
                 }
                 if (category === 'molduras' && user.molduras.includes(item.name)) {
-                    return await i.reply({ content: `Você já possui a moldura ${item.name}.`, ephemeral: true });
+                    return await i.reply({ content: `Você já possui a moldura ${item.name}.`, flags: MessageFlags.Ephemeral });
                 }
                 if (category === 'layouts' && user.haslayouts.includes(item.name)) {
-                    return await i.reply({ content: `Você já possui o layout ${item.name}.`, ephemeral: true });
+                    return await i.reply({ content: `Você já possui o layout ${item.name}.`, flags: MessageFlags.Ephemeral });
                 }
-                
+
                 if (user.bank >= item.price) {
                     user.bank -= item.price;
                     if (category === 'backgrounds') user.backgrounds.push(item.name);
@@ -113,7 +113,7 @@ module.exports = class ShoppingCommand extends Command {
                         }
 
                         if (
-                            typeof user.layouts[item.cod] === 'object' &&user.layouts[item.cod] !== null &&'equipped' in user.layouts[item.cod]
+                            typeof user.layouts[item.cod] === 'object' && user.layouts[item.cod] !== null && 'equipped' in user.layouts[item.cod]
                         ) {
                             user.layouts[item.cod].has = true;
                             user.layouts[item.cod].equipped = true;
@@ -123,16 +123,16 @@ module.exports = class ShoppingCommand extends Command {
                         }
                     }
                     await user.save();
-                    return await i.update({ content: `Você comprou ${item.name}!`, embeds: [], components: [], ephemeral: true });
+                    return await i.update({ content: `Você comprou ${item.name}!`, embeds: [], components: [], flags: MessageFlags.Ephemeral });
                 } else {
-                    return await i.reply({ content: 'Saldo insuficiente.', ephemeral: true });
+                    return await i.reply({ content: 'Saldo insuficiente.', flags: MessageFlags.Ephemeral });
                 }
-            }  else if (i.customId.startsWith('equip_')) {
+            } else if (i.customId.startsWith('equip_')) {
                 const itemIndex = i.customId.split('_')[1];
                 const item = store[category][itemIndex];
-    
+
                 const user = await this.client.database.users.findOne({ idU: message.author.id });
-                if (!user) return await i.update({ content: 'Usuário não encontrado.', ephemeral: true });
+                if (!user) return await i.update({ content: 'Usuário não encontrado.', flags: MessageFlags.Ephemeral });
 
                 // Verificar se já está equipado
                 const isAlreadyEquipped = (category === 'backgrounds' && user.profile.imagembg === item.raw) || (category === 'molduras' && user.profile.moldura === item.raw);
@@ -142,7 +142,7 @@ module.exports = class ShoppingCommand extends Command {
                         content: `Você já está usando ${item.name}.`,
                         embeds: [],
                         components: [],
-                        ephemeral: true
+                        flags: MessageFlags.Ephemeral
                     });
                 }
 
@@ -160,7 +160,7 @@ module.exports = class ShoppingCommand extends Command {
                     }
 
                     if (
-                        typeof user.layouts[item.cod] === 'object' && user.layouts[item.cod] !== null &&'equipped' in user.layouts[item.cod]
+                        typeof user.layouts[item.cod] === 'object' && user.layouts[item.cod] !== null && 'equipped' in user.layouts[item.cod]
                     ) {
                         user.layouts[item.cod].has = true;
                         user.layouts[item.cod].equipped = true;
@@ -179,10 +179,10 @@ module.exports = class ShoppingCommand extends Command {
                     content: `Você equipou ${item.name}!`,
                     embeds: [],
                     components: [],
-                    ephemeral: true
+                    flags: MessageFlags.Ephemeral
                 });
             } else if (i.customId === 'cancel') {
-                return await i.update({ content: 'Você cancelou a compra!', embeds: [], components: [], ephemeral: true });
+                return await i.update({ content: 'Você cancelou a compra!', embeds: [], components: [], flags: MessageFlags.Ephemeral });
             }
         });
 

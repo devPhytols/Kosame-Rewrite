@@ -356,7 +356,7 @@ module.exports = class RankcoinsCommand extends Command {
                 }
 
                 // Busca usuários ordenados por total de meias já obtidas (evento.moeda2)
-                const usersData = await this.client.database.users.find({ 'evento.moeda2': { $gt: 0 } })
+                const usersData = await this.client.database.users.find({ 'evento.moeda2': { $gt: 1 } })
                     .sort({ 'evento.moeda2': -1 })
                     .limit(12);
 

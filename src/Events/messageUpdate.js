@@ -8,8 +8,11 @@ module.exports = class messageUpdateEvent extends Event {
         this.name = 'messageUpdate';
     }
     async execute(oldMessage, newMessage) {
-        if (this.client.user === newMessage.author) return;
-        // if (newMessage.author.bot) return;
+        // Verifica se os dados necessários existem
+        if (!newMessage?.author || !newMessage?.guild || !oldMessage?.content) return;
+        if (this.client.user.id === newMessage.author.id) return;
+        if (newMessage.author.bot) return;
+
         const server = await this.client.database.guilds.findOne({ idS: newMessage.guild.id });
         if (server?.logs?.logsMsgEdit?.status) {
             const msgEmbedLog = new EmbedBuilder()
