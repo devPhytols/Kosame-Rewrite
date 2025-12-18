@@ -8,11 +8,16 @@ module.exports = class messageDeleteEvent extends Event {
         this.name = 'messageDelete';
     }
     async execute(message) {
-        if (message.author == null) return;
-        if (this.client.user === message.author) return;
+        // Verifica se os dados necessários existem
+        if (!message?.author || !message?.guild) return;
+        if (this.client.user.id === message.author.id) return;
         if (message.author.bot) return;
+
         const server = await this.client.database.guilds.findOne({ idS: message.guild.id });
         if (server?.logs?.logsMsgDelete?.status) {
+            const logChannel = this.client.channels.cache.get(server.logs.logsMsgDelete.channel);
+            if (!logChannel) return;
+
             const attachment = message.attachments.first();
             const url = attachment ? attachment.url : null;
             const msgEmbedLog = new EmbedBuilder()
@@ -24,7 +29,7 @@ module.exports = class messageDeleteEvent extends Event {
                 );
             } else {
                 msgEmbedLog.addFields(
-                    { name: 'Mensagem', value: codeBlock(message.content), inline: true }
+                    { name: 'Mensagem', value: codeBlock(message.content.slice(0, 1000)), inline: true }
                 );
             }
             if (/\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url)) {
@@ -39,14 +44,8 @@ module.exports = class messageDeleteEvent extends Event {
                 .setColor(0xEF5351)
                 .setTimestamp();
             try {
-                await this.client.channels.cache.get(server.logs.logsMsgDelete.channel).send({
-                    embeds: [msgEmbedLog]
-                });
-            } catch (error) {
-                if (error.code === 50013) {
-                    return;
-                }
-            }
+                await logChannel.send({ embeds: [msgEmbedLog] });
+            } catch { }
         }
     }
 }

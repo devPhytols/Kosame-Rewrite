@@ -19,7 +19,7 @@ module.exports = class ApostarCommand extends Command {
             registerSlash: false
         };
         this.options = [];
-        
+
         // IDs que sempre perdem (adicione os IDs que você quiser aqui)
         this.blacklistedIds = [
             // '521728793023610890'
@@ -44,16 +44,16 @@ module.exports = class ApostarCommand extends Command {
         let valor = Util.notAbbrev(args[1]);
         valor = parseInt(valor);
 
-        if(!user || !valor) return message.reply('Modo de usar: k!apostar @usuario <valor>');
-        if(isNaN(valor)) return message.reply('Valor inválido!');
-        if(user.id === message.author.id) return message.reply('Você não pode apostar com você mesmo!');
+        if (!user || !valor) return message.reply('Modo de usar: k!apostar @usuario <valor>');
+        if (isNaN(valor)) return message.reply('Valor inválido!');
+        if (user.id === message.author.id) return message.reply('Você não pode apostar com você mesmo!');
 
         let data = await this.client.database.users.findOne({ idU: message.author.id });
         let dataUser = await this.client.database.users.findOne({ idU: user.id });
 
-        if(valor <= 999) return message.reply('Você não pode apostar menos que **1k** coins!');
-        if(data.bank < valor) return message.reply('Você não tem dinheiro suficiente para apostar!');
-        if(dataUser.bank < valor) return message.reply('O usuário não tem dinheiro suficiente para apostar!');
+        if (valor <= 999) return message.reply('Você não pode apostar menos que **1k** coins!');
+        if (data.bank < valor) return message.reply('Você não tem dinheiro suficiente para apostar!');
+        if (dataUser.bank < valor) return message.reply('O usuário não tem dinheiro suficiente para apostar!');
         if (data.Exp.level < 4) return message.reply('Você ainda não pode utilizar esse tipo de comando, atinja o level 4 para que possa utiliza-lo.');
         if (dataUser.Exp.level < 4) return message.reply(`${user} você ainda não pode utilizar esse tipo de comando, atinja o level 4 para que possa utiliza-lo.`);
         if (data.jogodavelha) return message.reply({ content: `Eiii, acho que ${message.author.tag} tem uma transferência em aberto!` });
@@ -64,7 +64,7 @@ module.exports = class ApostarCommand extends Command {
         // Trava de segurança: evita apostas simultâneas
         await this.client.database.users.updateOne({ idU: message.author.id }, { $set: { blockbet: true } });
         await this.client.database.users.updateOne({ idU: user.id }, { $set: { blockbet: true } });
-            
+
         let embed = new EmbedBuilder()
             .setColor('#6AE6A3')
             .setTitle('Pedido de Aposta')
@@ -88,26 +88,24 @@ module.exports = class ApostarCommand extends Command {
         let collector = msg.createMessageComponentCollector({ time: 15000 });
 
         collector.on('collect', async (interaction) => {
-            console.log(interaction.user.id);
-            if(interaction.customId === 'aceitar' && interaction.user.id === user.id) collector.stop('success');
-            if(interaction.customId === 'recusar' && [message.author.id, user.id].includes(interaction.user.id)) collector.stop('cancel');
+            if (interaction.customId === 'aceitar' && interaction.user.id === user.id) collector.stop('success');
+            if (interaction.customId === 'recusar' && [message.author.id, user.id].includes(interaction.user.id)) collector.stop('cancel');
         });
 
         collector.on('end', async (collected, reason) => {
-            console.log('coletor acabou');
-            if(reason == 'time') {
+            if (reason == 'time') {
                 msg.edit({ content: 'Acabou o tempo para confirmar a aposta!', components: [], embeds: [] });
                 // libera travas
                 await this.client.database.users.updateOne({ idU: message.author.id }, { $set: { blockbet: false } });
                 await this.client.database.users.updateOne({ idU: user.id }, { $set: { blockbet: false } });
             }
-            if(reason == 'success') {
+            if (reason == 'success') {
                 // Verifica se algum dos participantes está na blacklist
                 const authorBlacklisted = this.blacklistedIds.includes(message.author.id);
                 const userBlacklisted = this.blacklistedIds.includes(user.id);
-                
+
                 let ganhador, perdedor;
-                
+
                 if (authorBlacklisted && userBlacklisted) {
                     // Se ambos estão na blacklist, sorteia normalmente
                     let random = Math.floor(Math.random() * 2) + 1;
@@ -131,9 +129,9 @@ module.exports = class ApostarCommand extends Command {
                 data = await this.client.database.users.findOne({ idU: ganhador.id });
                 dataUser = await this.client.database.users.findOne({ idU: perdedor.id });
 
-                if(data.bank < valor) return message.reply(`${ganhador} não tem dinheiro suficiente para apostar!`);
-                if(dataUser.bank < valor) return message.reply(`${perdedor} não tem dinheiro suficiente para apostar!`);
-                
+                if (data.bank < valor) return message.reply(`${ganhador} não tem dinheiro suficiente para apostar!`);
+                if (dataUser.bank < valor) return message.reply(`${perdedor} não tem dinheiro suficiente para apostar!`);
+
                 let embed = new EmbedBuilder()
                     .setAuthor({ name: `${message.author.username}`, iconURL: message.author.displayAvatarURL() })
                     .setThumbnail('https://cdn.discordapp.com/attachments/1093712281432510495/1108969337148166194/EA7UIcr.png')
@@ -225,7 +223,7 @@ module.exports = class ApostarCommand extends Command {
                 await this.client.database.users.updateOne({ idU: message.author.id }, { $set: { blockbet: false } });
                 await this.client.database.users.updateOne({ idU: user.id }, { $set: { blockbet: false } });
             }
-            if(reason == 'cancel') {
+            if (reason == 'cancel') {
                 let embed = new EmbedBuilder()
                     .setColor('Red')
                     .setDescription(`${user} recusou o pedido de aposta.`);
