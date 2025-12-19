@@ -6,7 +6,7 @@ class Shard extends ShardingManager {
     constructor() {
         super('./src/KosameLauncher.js', {
             mode: 'process',
-            totalShards: 4,
+            totalShards: 'auto',
             respawn: true,
             execArgv: ['--trace-warnings'],
             shardArgs: ['--ansi', '--color'],
@@ -36,7 +36,7 @@ class Shard extends ShardingManager {
                 this.logger.warn(`Shard: [${shard.id}] reconnected successfully`, 'Shard');
             });
             shard.on('death', () => {
-                this.logger.error(`Shard [${shard.id}] died!` , 'Shard');
+                this.logger.error(`Shard [${shard.id}] died!`, 'Shard');
             });
             shard.on('error', (err) => {
                 this.logger.error(`Shard [${shard.id}] throw an error: ${err.stack}`, 'Shard');

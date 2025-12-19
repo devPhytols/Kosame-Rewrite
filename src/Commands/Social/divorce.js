@@ -1,5 +1,4 @@
-const { ApplicationCommandType, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType } = require('discord.js');
-const { ClientEmbed } = require('../../Structures/ClientEmbed');
+const { ApplicationCommandType, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType, MessageFlags, ContainerBuilder, TextDisplayBuilder, SeparatorBuilder, SeparatorSpacingSize } = require('discord.js');
 const { Command } = require('../../Structures/Structures');
 
 module.exports = class DivorceCommand extends Command {
@@ -30,72 +29,119 @@ module.exports = class DivorceCommand extends Command {
 
         const par = await this.client.users.fetch(doc.marry.user);
 
-        const EMBED1 = new ClientEmbed()
-            .setAuthor({ name: `${par.tag}`, iconURL: par.displayAvatarURL(() => ({ dynamic: true })) })
-            .setDescription(`<:brokenheart:842091496143978537><:sadface:842078049951809557> ${message.author} se divorciou de você.`)
-            .setColor('#FF4B4E');
-
-        const row = new ActionRowBuilder().addComponents(
-            new ButtonBuilder()
-                .setCustomId('confirm_divorce')
-                .setLabel('Confirmar')
-                .setStyle(ButtonStyle.Danger),
-            new ButtonBuilder()
-                .setCustomId('cancel_divorce')
-                .setLabel('Cancelar')
-                .setStyle(ButtonStyle.Secondary)
-        );
+        // Container do pedido de divórcio
+        const container = new ContainerBuilder()
+            .setAccentColor(0xFF4B4E)
+            .addTextDisplayComponents(
+                new TextDisplayBuilder().setContent('# 💔 Pedido de Divórcio')
+            )
+            .addSeparatorComponents(
+                new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Small)
+            )
+            .addTextDisplayComponents(
+                new TextDisplayBuilder().setContent(`**${message.author.tag}**, você quer se divorciar de **\`${par.tag}\`**?`)
+            )
+            .addActionRowComponents(
+                new ActionRowBuilder().addComponents(
+                    new ButtonBuilder()
+                        .setCustomId('confirm_divorce')
+                        .setLabel('Confirmar')
+                        .setStyle(ButtonStyle.Danger),
+                    new ButtonBuilder()
+                        .setCustomId('cancel_divorce')
+                        .setLabel('Cancelar')
+                        .setStyle(ButtonStyle.Secondary)
+                )
+            );
 
         const prompt = await message.reply({
-            content: `${message.author}, você quer se divorciar de **\`${par.tag}\`**?`,
-            components: [row],
-            fetchReply: true
+            components: [container],
+            flags: MessageFlags.IsComponentsV2
         });
 
         const collector = prompt.createMessageComponentCollector({
             componentType: ComponentType.Button,
-            time: 10000,
+            time: 15000,
             filter: (interaction) => interaction.user.id === message.author.id
         });
 
         collector.on('collect', async (interaction) => {
-            await interaction.deferUpdate();
+            try {
+                if (interaction.customId === 'confirm_divorce') {
+                    collector.stop('confirmed');
 
-            if (interaction.user.id !== message.author.id) {
-                return message.reply({ content: `${interaction.user}, você não tem permissão para opinar nisso! 👀` })
-            }
+                    // Container de confirmação
+                    const confirmContainer = new ContainerBuilder()
+                        .setAccentColor(0x808080)
+                        .addTextDisplayComponents(
+                            new TextDisplayBuilder().setContent('# 💔 Divórcio Realizado')
+                        )
+                        .addSeparatorComponents(
+                            new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Small)
+                        )
+                        .addTextDisplayComponents(
+                            new TextDisplayBuilder().setContent(`**${message.author.tag}** se divorciou de **${par.tag}**.\n\n-# O casamento chegou ao fim.`)
+                        );
 
-            if (interaction.customId === 'confirm_divorce') {
-                collector.stop();
-                await prompt.delete();
+                    await interaction.update({
+                        components: [confirmContainer],
+                        flags: MessageFlags.IsComponentsV2
+                    });
 
-                await message.channel.send({ content: `${message.author.id}`, embeds: [EMBED1] });
+                    // Atualiza banco de dados
+                    await this.client.database.users.findOneAndUpdate({ idU: message.author.id }, {
+                        $set: { 'marry.user': 'null', 'marry.has': false, 'marry.time': 0 }
+                    });
+                    await this.client.database.users.findOneAndUpdate({ idU: doc.marry.user }, {
+                        $set: { 'marry.user': 'null', 'marry.has': false, 'marry.time': 0 }
+                    });
 
-                await this.client.database.users.findOneAndUpdate({ idU: message.author.id }, {
-                    $set: {
-                        'marry.user': 'null',
-                        'marry.has': false,
-                        'marry.time': 0
-                    }
-                });
-                await this.client.database.users.findOneAndUpdate({ idU: doc.marry.user }, {
-                    $set: {
-                        'marry.user': 'null',
-                        'marry.has': false,
-                        'marry.time': 0
-                    }
-                });
-            } else if (interaction.customId === 'cancel_divorce') {
-                collector.stop();
-                await prompt.delete();
-                await message.channel.send('**Pedido de divórcio cancelado**');
+                } else if (interaction.customId === 'cancel_divorce') {
+                    collector.stop('cancelled');
+
+                    // Container de cancelamento
+                    const cancelContainer = new ContainerBuilder()
+                        .setAccentColor(0x57F187)
+                        .addTextDisplayComponents(
+                            new TextDisplayBuilder().setContent('# ✅ Divórcio Cancelado')
+                        )
+                        .addSeparatorComponents(
+                            new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Small)
+                        )
+                        .addTextDisplayComponents(
+                            new TextDisplayBuilder().setContent(`**${message.author.tag}** decidiu continuar casado com **${par.tag}**.\n\n-# O amor prevaleceu! 💕`)
+                        );
+
+                    await interaction.update({
+                        components: [cancelContainer],
+                        flags: MessageFlags.IsComponentsV2
+                    });
+                }
+            } catch {
+                // Ignora erros de API temporários
             }
         });
 
         collector.on('end', async (_, reason) => {
             if (reason === 'time') {
-                await prompt.delete().catch(() => { });
-                await message.channel.send('O tempo para confirmar acabou!');
+                try {
+                    const timeoutContainer = new ContainerBuilder()
+                        .setAccentColor(0x808080)
+                        .addTextDisplayComponents(
+                            new TextDisplayBuilder().setContent('# ⏰ Tempo Esgotado')
+                        )
+                        .addSeparatorComponents(
+                            new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Small)
+                        )
+                        .addTextDisplayComponents(
+                            new TextDisplayBuilder().setContent('O tempo para confirmar o divórcio acabou.\n\n-# O pedido foi cancelado.')
+                        );
+
+                    await prompt.edit({
+                        components: [timeoutContainer],
+                        flags: MessageFlags.IsComponentsV2
+                    });
+                } catch { }
             }
         });
     }

@@ -1,5 +1,4 @@
-const { ApplicationCommandType, ApplicationCommandOptionType } = require('discord.js');
-const { ClientEmbed } = require('../../Structures/ClientEmbed');
+const { ApplicationCommandType, ApplicationCommandOptionType, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType, MessageFlags, ContainerBuilder, TextDisplayBuilder, SeparatorBuilder, SeparatorSpacingSize } = require('discord.js');
 const { Command } = require('../../Structures/Structures');
 
 module.exports = class MarryCommand extends Command {
@@ -30,7 +29,6 @@ module.exports = class MarryCommand extends Command {
      * @param {User[]} args 
      */
     async commandExecute({ message, args }) {
-
         const user = this.client.users.cache.get(args[0]) || message.mentions?.users?.first() || message.author;
         const doc = await this.client.database.users.findOne({ idU: message.author.id });
 
@@ -51,74 +49,125 @@ module.exports = class MarryCommand extends Command {
         if (target.marry.has)
             return message.reply({ content: `${message.author}, o(a) membro(a) já está casado com o(a) **\`${await this.client.users.fetch(target.marry.user).then((x) => x.tag)}\`**.` });
 
-        const embedaceito = new ClientEmbed()
-            .setColor('#F55978')
-            .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL() })
-            .setDescription(`${user} aceitou seu pedido!\n\n**Agora vocês estão casados.** `)
-            .setThumbnail('https://cdn.discordapp.com/attachments/1015101071154233344/1015101392752484433/marry1.png', { size: 1024 });
+        // Container do pedido de casamento
+        const container = new ContainerBuilder()
+            .setAccentColor(0xFF4B4E)
+            .addTextDisplayComponents(
+                new TextDisplayBuilder().setContent('# <:ksmmarry:1451361735398133853> Pedido de Casamento')
+            )
+            .addSeparatorComponents(
+                new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Small)
+            )
+            .addTextDisplayComponents(
+                new TextDisplayBuilder().setContent(`**${message.author.tag}** convidou ${user} para um jantar romântico e o(a) pediu em casamento!\n\n-# ${user.tag}, você aceita?`)
+            )
+            .addActionRowComponents(
+                new ActionRowBuilder().addComponents(
+                    new ButtonBuilder()
+                        .setCustomId('marry_accept')
+                        .setEmoji('<:ksm_certo:1089754956321542234>')
+                        .setLabel('Aceitar')
+                        .setStyle(ButtonStyle.Secondary),
+                    new ButtonBuilder()
+                        .setCustomId('marry_decline')
+                        .setEmoji('<:ksm_errado:1089754955256176701>')
+                        .setLabel('Recusar')
+                        .setStyle(ButtonStyle.Secondary)
+                )
+            );
 
-        const embedpedido = new ClientEmbed()
-            .setColor('#FF4B4E')
-            .setTitle('**Pedido de Casamento**')
-            .setDescription(`Você convidou ${user} para um jantar romântico\ne o(a) pediu em casamento!`)
-            .setThumbnail('https://cdn.discordapp.com/attachments/1015101071154233344/1015101392563736677/marry2.png');
+        const msg = await message.reply({
+            components: [container],
+            flags: MessageFlags.IsComponentsV2
+        });
 
-        const filter = (reaction, member) => {
-            return (member.id === user.id && ['✅', '❌'].includes(reaction.emoji.name));
-        };
+        const collector = msg.createMessageComponentCollector({
+            componentType: ComponentType.Button,
+            time: 30000,
+            filter: (interaction) => interaction.user.id === user.id
+        });
 
-        message.reply('Pedido enviado!').then(
-            message.channel.send({
-                embeds: [embedpedido]
-            }).then(async (msg) => {
-                for (const emoji of ['✅', '❌']) await msg.react(emoji);
+        collector.on('collect', async (interaction) => {
+            try {
+                if (interaction.customId === 'marry_accept') {
+                    collector.stop('accepted');
 
-                msg
-                    .awaitReactions({
-                        filter: filter,
-                        max: 1,
-                        time: 10000,
-                        errors: ['time']
-                    })
-                    .then(async (collected) => {
-                        if (collected.first().emoji.name === '✅') {
-                            msg.delete();
+                    // Container de aceito
+                    const acceptContainer = new ContainerBuilder()
+                        .setAccentColor(0xF55978)
+                        .addTextDisplayComponents(
+                            new TextDisplayBuilder().setContent('# <:ksmmarry:1451361735398133853> Casamento Realizado!')
+                        )
+                        .addSeparatorComponents(
+                            new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Small)
+                        )
+                        .addTextDisplayComponents(
+                            new TextDisplayBuilder().setContent(`${user} aceitou o pedido de **${message.author.tag}**!\n\n💕 **Agora vocês estão casados!**\n-# Use \`k!status\` para ver informações do casal`)
+                        );
 
-                            message.channel.send({
-                                embeds: [embedaceito]
-                            });
-
-                            await this.client.database.users.findOneAndUpdate({
-                                idU: message.author.id
-                            }, {
-                                $set: {
-                                    'marry.user': user.id,
-                                    'marry.has': true,
-                                    'marry.time': Date.now()
-                                }
-                            });
-                            await this.client.database.users.findOneAndUpdate({
-                                idU: user.id
-                            }, {
-                                $set: {
-                                    'marry.user': message.author.id,
-                                    'marry.has': true,
-                                    'marry.time': Date.now()
-                                }
-                            });
-
-                            return;
-                        }
-
-                        if (collected.first().emoji.name === '❌') {
-                            msg.delete();
-
-                            return message.channel.send({ content: `<:sadface:842078049951809557><:brokenheart:842091496143978537> ${user} recusou seu pedido de casamento.` });
-                        }
-                    }).catch(() => {
-                        msg.delete();
-                        message.reply({ content: 'O tempo para aceitar o pedido acabou!' });
+                    await interaction.update({
+                        components: [acceptContainer],
+                        flags: MessageFlags.IsComponentsV2
                     });
-            })).catch(() => { });
+
+                    // Atualiza o banco de dados
+                    await this.client.database.users.findOneAndUpdate(
+                        { idU: message.author.id },
+                        { $set: { 'marry.user': user.id, 'marry.has': true, 'marry.time': Date.now() } }
+                    );
+                    await this.client.database.users.findOneAndUpdate(
+                        { idU: user.id },
+                        { $set: { 'marry.user': message.author.id, 'marry.has': true, 'marry.time': Date.now() } }
+                    );
+
+                } else if (interaction.customId === 'marry_decline') {
+                    collector.stop('declined');
+
+                    // Container de recusado
+                    const declineContainer = new ContainerBuilder()
+                        .setAccentColor(0x808080)
+                        .addTextDisplayComponents(
+                            new TextDisplayBuilder().setContent('# 💔 Pedido Recusado')
+                        )
+                        .addSeparatorComponents(
+                            new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Small)
+                        )
+                        .addTextDisplayComponents(
+                            new TextDisplayBuilder().setContent(`${user} recusou o pedido de casamento de **${message.author.tag}**.\n\n-# Talvez na próxima...`)
+                        );
+
+                    await interaction.update({
+                        components: [declineContainer],
+                        flags: MessageFlags.IsComponentsV2
+                    });
+                }
+            } catch {
+                // Ignora erros de API
+            }
+        });
+
+        collector.on('end', async (_, reason) => {
+            if (reason === 'time') {
+                try {
+                    // Container de timeout
+                    const timeoutContainer = new ContainerBuilder()
+                        .setAccentColor(0x808080)
+                        .addTextDisplayComponents(
+                            new TextDisplayBuilder().setContent('# ⏰ Tempo Esgotado')
+                        )
+                        .addSeparatorComponents(
+                            new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Small)
+                        )
+                        .addTextDisplayComponents(
+                            new TextDisplayBuilder().setContent(`${user} não respondeu ao pedido de casamento a tempo.\n\n-# O pedido expirou.`)
+                        );
+
+                    await msg.edit({
+                        components: [timeoutContainer],
+                        flags: MessageFlags.IsComponentsV2
+                    });
+                } catch { }
+            }
+        });
     }
 };
