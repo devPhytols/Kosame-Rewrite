@@ -116,7 +116,7 @@ module.exports = class StatusCommand extends Command {
             } else {
                 container
                     .addTextDisplayComponents(
-                        new TextDisplayBuilder().setContent(`# ❌ Não disponível`)
+                        new TextDisplayBuilder().setContent(`# <:ksmmarry:1451361735398133853> Não disponível`)
                     )
                     .addSeparatorComponents(
                         new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Small)
