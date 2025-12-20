@@ -5,95 +5,90 @@
  @raw = Imagem que será definida no perfil (No formato)
 */
 const store = {
-    backgrounds: [ 
+    backgrounds: [
         // BANNER BRANCO   
         { name: 'Whispering Wings (White)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/Eukj5Eb.png', raw: 'https://i.imgur.com/U0luQz1.png' },
-        { name: 'Enchanted Sprite (White)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/2MIYyok.png',raw: 'https://i.imgur.com/C9OnqDh.png' },
+        { name: 'Enchanted Sprite (White)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/2MIYyok.png', raw: 'https://i.imgur.com/C9OnqDh.png' },
         { name: 'Velvet Kiss (White)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/MFlS7uN.png', raw: 'https://i.imgur.com/fHMwFs5.png' },
         { name: 'Snuggle Buddy (White)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/rRm5ff2.png', raw: 'https://i.imgur.com/YWEXUuV.png' },
         { name: 'Eternal Bloom (White)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/Bwn4bHE.png', raw: 'https://i.imgur.com/VtfmxtV.png' },
         { name: 'Ribbon Charm (White)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/9DSBEUa.png', raw: 'https://i.imgur.com/I34s2oX.png' },
         { name: 'Starry Dreams (White)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/gxkJU90.png', raw: 'https://i.imgur.com/xMeqQdX.png' },
         { name: 'Playful Paws (White)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/ISmJu7R.png', raw: 'https://i.imgur.com/CYThGtC.png' },
-        { name: 'Mystical Feline (White)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/QMBxkDD.png',raw: 'https://i.imgur.com/ErELhKS.png' },
+        { name: 'Mystical Feline (White)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/QMBxkDD.png', raw: 'https://i.imgur.com/ErELhKS.png' },
         { name: 'Cozy Cuddle (White)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/rAp1kUp.png', raw: 'https://i.imgur.com/79bC13I.png' },
         { name: 'Rainbow Hugs (White)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/2wRJlR7.png', raw: 'https://i.imgur.com/m1QDfWQ.png' },
         { name: 'Heart (White)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/dCIL2Am.png', raw: 'https://i.imgur.com/o898Vv9.png' },
         { name: 'Cherry (White)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/JA79vyA.png', raw: 'https://i.imgur.com/AF1Epgk.png' },
         { name: 'Hello kitty (White)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/Mwf2ZIV.png', raw: 'https://i.imgur.com/4wYWMe9.png' },
-        { name: 'Full white (White)', price: 50000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/6tkdKxY.png', raw: 'https://i.imgur.com/6tkdKxY.png' },
 
         // BANNER PRETO
 
         { name: 'Whispering Wings (Black)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/wyLmvdd.png', raw: 'https://i.imgur.com/zAW5MGT.png' },
-        { name: 'Enchanted Sprite (Black)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/JA4Q563.png',raw: 'https://i.imgur.com/Ss41kUm.png' },
+        { name: 'Enchanted Sprite (Black)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/JA4Q563.png', raw: 'https://i.imgur.com/Ss41kUm.png' },
         { name: 'Velvet Kiss (Black)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/WuygGFC.png', raw: 'https://i.imgur.com/TkyEZpz.png' },
         { name: 'Snuggle Buddy (Black)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/Mv5GLEv.png', raw: 'https://i.imgur.com/CfYItJv.png' },
-        { name: 'Eternal Bloom (Black)',  price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/gG6Uu5h.png', raw: 'https://i.imgur.com/iTAkZtQ.png' },
+        { name: 'Eternal Bloom (Black)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/gG6Uu5h.png', raw: 'https://i.imgur.com/iTAkZtQ.png' },
         { name: 'Ribbon Charm (Black)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/POJeTTD.png', raw: 'https://i.imgur.com/Crf5k3g.png' },
         { name: 'Starry Dreams (Black)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/JHWkJgY.png', raw: 'https://i.imgur.com/UNP4w9d.png' },
         { name: 'Playful Paws (Black)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/VU4zuz5.png', raw: 'https://i.imgur.com/1FulNiv.png' },
-        { name: 'Mystical Feline (Black)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/scOQoAW.png',raw: 'https://i.imgur.com/ubPXlO3.png' },
+        { name: 'Mystical Feline (Black)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/scOQoAW.png', raw: 'https://i.imgur.com/ubPXlO3.png' },
         { name: 'Cozy Cuddle (Black)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/I0icb1g.png', raw: 'https://i.imgur.com/HVH2GJf.png' },
         { name: 'Rainbow Hugs (Black)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/SKjyzHw.png', raw: 'https://i.imgur.com/DINRNZE.png' },
         { name: 'Heart (Black)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/kv7mBLz.png', raw: 'https://i.imgur.com/2aWg8BS.png' },
         { name: 'Cherry (Black)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/bAHIWhl.png', raw: 'https://i.imgur.com/pmWZXkg.png' },
         { name: 'Hello kitty (Black)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/O66rFiM.png', raw: 'https://i.imgur.com/ve2sZ9G.png' },
-        { name: 'Full black (Black)', price: 50000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/sTTBRBm.png', raw: 'https://i.imgur.com/sTTBRBm.png' },
 
         // BANNER ROSA
 
         { name: 'Whispering Wings (Rose)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/UTO9EuH.png', raw: 'https://i.imgur.com/yrxaMl5.png' },
-        { name: 'Enchanted Sprite (Rose)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/fK9FW2H.png',raw: 'https://i.imgur.com/wl6MKEh.png' },
+        { name: 'Enchanted Sprite (Rose)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/fK9FW2H.png', raw: 'https://i.imgur.com/wl6MKEh.png' },
         { name: 'Velvet Kiss (Rose)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/37LwwMn.png', raw: 'https://i.imgur.com/JENs8De.png' },
         { name: 'Snuggle Buddy (Rose)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/Vc8XyWg.png', raw: 'https://i.imgur.com/UhjOsfj.png' },
         { name: 'Eternal Bloom (Rose)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/UjJ1SOJ.png', raw: 'https://i.imgur.com/dpowVBe.png' },
         { name: 'Ribbon Charm (Rose)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/zAtnVN3.png', raw: 'https://i.imgur.com/SJ2kr0X.png' },
         { name: 'Starry Dreams (Rose)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/awlr35b.png', raw: 'https://i.imgur.com/heNqWpU.png' },
         { name: 'Playful Paws (Rose)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/AYcxTPE.png', raw: 'https://i.imgur.com/d9KzPfr.png' },
-        { name: 'Mystical Feline (Rose)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/sBVw70Q.png',raw: 'https://i.imgur.com/mCNpTq4.png' },
+        { name: 'Mystical Feline (Rose)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/sBVw70Q.png', raw: 'https://i.imgur.com/mCNpTq4.png' },
         { name: 'Cozy Cuddle (Rose)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/QUeirwj.png', raw: 'https://i.imgur.com/0KCQ0ef.png' },
         { name: 'Rainbow Hugs (Rose)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/FaBD4NT.png', raw: 'https://i.imgur.com/Hkcb9CV.png' },
         { name: 'Heart (Rose)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/rsGXs3L.png', raw: 'https://i.imgur.com/ygm6Jmy.png' },
         { name: 'Cherry (Rose)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/nL4yoV9.png', raw: 'https://i.imgur.com/eWFEL9a.png' },
         { name: 'Hello kitty (Rose)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/vNk1Tzf.png', raw: 'https://i.imgur.com/FUSGLsn.png' },
-        { name: 'Full rosa (Rose)', price: 50000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/N8hKiij.png', raw: 'https://i.imgur.com/N8hKiij.png' },
 
         // BANNER CIANO
 
         { name: 'Whispering Wings (Cyan)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/HRWxQrR.png', raw: 'https://i.imgur.com/Q0QHT3W.png' },
-        { name: 'Enchanted Sprite (Cyan)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/L1gjjjO.png',raw: 'https://i.imgur.com/PhwbVlA.png' },
+        { name: 'Enchanted Sprite (Cyan)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/L1gjjjO.png', raw: 'https://i.imgur.com/PhwbVlA.png' },
         { name: 'Velvet Kiss (Cyan)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/eZ7lHaY.png', raw: 'https://i.imgur.com/JamJdqB.png' },
         { name: 'Snuggle Buddy (Cyan)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/cEET4Lx.png', raw: 'https://i.imgur.com/t9XbiMl.png' },
         { name: 'Eternal Bloom (Cyan)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/5YhQ3dp.png', raw: 'https://i.imgur.com/oRH3Owe.png' },
         { name: 'Ribbon Charm (Cyan)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/4x15NDH.png', raw: 'https://i.imgur.com/zK37Dc5.png' },
         { name: 'Starry Dreams (Cyan)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/Q0Iy0XR.png', raw: 'https://i.imgur.com/g4t0iQp.png' },
         { name: 'Playful Paws (Cyan)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/vYh1n9R.png', raw: 'https://i.imgur.com/Yjppwua.png' },
-        { name: 'Mystical Feline (Cyan)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/TlJjOIn.png', raw:'https://i.imgur.com/7TcunK6.png' },
+        { name: 'Mystical Feline (Cyan)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/TlJjOIn.png', raw: 'https://i.imgur.com/7TcunK6.png' },
         { name: 'Cozy Cuddle (Cyan)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/lg7M2eL.png', raw: 'https://i.imgur.com/Q36modr.png' },
         { name: 'Rainbow Hugs (Cyan)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/9v2tkU9.png', raw: 'https://i.imgur.com/6ji1IG1.png' },
         { name: 'Heart (Cyan)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/dO2BNIn.png', raw: 'https://i.imgur.com/6vcOMuy.png' },
         { name: 'Cherry (Cyan)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/KGwDmn2.png', raw: 'https://i.imgur.com/dtALUat.png' },
         { name: 'Hello kitty (Cyan)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/NWRopPn.png', raw: 'https://i.imgur.com/YDSPydz.png' },
-        { name: 'Full ciano (Cyan)', price: 50000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/1qhYdCv.png', raw: 'https://i.imgur.com/1qhYdCv.png' },
 
         // BANNER ROXO
 
         { name: 'Whispering Wings (Purple)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/RKUap3x.png', raw: 'https://i.imgur.com/Wp1BWi1.png' },
-        { name: 'Enchanted Sprite (Purple)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/GmJ7FNv.png',raw: 'https://i.imgur.com/qHOjbJk.png' },
+        { name: 'Enchanted Sprite (Purple)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/GmJ7FNv.png', raw: 'https://i.imgur.com/qHOjbJk.png' },
         { name: 'Velvet Kiss (Purple)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/FxpPks6.png', raw: 'https://i.imgur.com/6dc9DIi.png' },
         { name: 'Snuggle Buddy (Purple)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/T43upBK.png', raw: 'https://i.imgur.com/8ix113G.png' },
         { name: 'Eternal Bloom (Purple)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/Hrnpgdy.png', raw: 'https://i.imgur.com/4OSzKGn.png' },
         { name: 'Ribbon Charm (Purple)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/Fgy2l9I.png', raw: 'https://i.imgur.com/aBlQGK8.png' },
         { name: 'Starry Dreams (Purple)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/u0NCRSM.png', raw: 'https://i.imgur.com/yy4caxG.png' },
         { name: 'Playful Paws (Purple)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/jpQuG2p.png', raw: 'https://i.imgur.com/cJS5EMi.png' },
-        { name: 'Mystical Feline (Purple)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/ID1RW5L.png', raw:'https://i.imgur.com/FO9dGC2.png' },
+        { name: 'Mystical Feline (Purple)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/ID1RW5L.png', raw: 'https://i.imgur.com/FO9dGC2.png' },
         { name: 'Cozy Cuddle (Purple)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/03OJzz6.png', raw: 'https://i.imgur.com/KvCEhUn.png' },
         { name: 'Rainbow Hugs (Purple)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/REOHV6L.png', raw: 'https://i.imgur.com/oXoz0ZY.png' },
         { name: 'Heart (Purple)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/IwGhFDY.png', raw: 'https://i.imgur.com/BpFHKYA.png' },
         { name: 'Cherry (Purple)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/chkHRMM.png', raw: 'https://i.imgur.com/U1vqGL7.png' },
         { name: 'Hello kitty (Purple)', price: 500000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/raxaAhV.png', raw: 'https://i.imgur.com/iU8AW1o.png' },
-        { name: 'Full roxo (Purple)', price: 50000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/gEWFOqF.png', raw: 'https://i.imgur.com/gEWFOqF.png' },
 
 
         // BANNER BLUE RIVER
@@ -108,8 +103,7 @@ const store = {
         { name: 'Bear (Blue River)', price: 800000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/Z1GLqpu.png', raw: 'https://i.imgur.com/3DaKnkw.png' },
         { name: 'Cute (Blue River)', price: 800000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/FqbHvQZ.png', raw: 'https://i.imgur.com/jQb0ou0.png' },
         { name: 'Pink Cat (Blue River)', price: 800000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/U8OTozS.png', raw: 'https://i.imgur.com/Re1o7kq.png' },
-        { name: 'Full azul rio (Blue River)', price: 50000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/Zg5x8ct.png', raw: 'https://i.imgur.com/Zg5x8ct.png' },
-        
+
 
         // BANNER RED
 
@@ -123,7 +117,6 @@ const store = {
         { name: 'Bear (Red)', price: 800000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/wFyr9BM.png', raw: 'https://i.imgur.com/4KERmHb.png' },
         { name: 'Cute (Red)', price: 800000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/bvgPcDu.png', raw: 'https://i.imgur.com/lNv4udf.png' },
         { name: 'Pink Cat (Red)', price: 800000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/PQ8uyZi.png', raw: 'https://i.imgur.com/OjkHP1c.png' },
-        { name: 'Full vermelho (Red)', price: 50000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/p83842v.png', raw: 'https://i.imgur.com/p83842v.png' },
 
         // BANNER YELLOW
 
@@ -137,7 +130,6 @@ const store = {
         { name: 'Bear (Yellow)', price: 800000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/H2LBzcn.png', raw: 'https://i.imgur.com/abYHMfY.png' },
         { name: 'Cute (Yellow)', price: 800000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/wQ3io8V.png', raw: 'https://i.imgur.com/lsZ8W9z.png' },
         { name: 'Pink Cat (Yellow)', price: 800000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/isHwDCm.png', raw: 'https://i.imgur.com/gx9lIgS.png' },
-        { name: 'Full amarelo (Yellow)', price: 50000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/B5yXKvr.png', raw: 'https://i.imgur.com/B5yXKvr.png' },
 
         // SWAMP GREEN
 
@@ -151,7 +143,6 @@ const store = {
         { name: 'Bear (Swamp Green)', price: 800000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/PKx0g00.png', raw: 'https://i.imgur.com/OlLsIrv.png' },
         { name: 'Cute (Swamp Green)', price: 800000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/24GOLgu.png', raw: 'https://i.imgur.com/xfEOedo.png' },
         { name: 'Pink Cat (Swamp Green)', price: 800000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/jUKDIYH.png', raw: 'https://i.imgur.com/cZj3CK6.png' },
-        { name: 'Full verde pantano (Swamp Green)', price: 50000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/FRlOGo8.png', raw: 'https://i.imgur.com/FRlOGo8.png' },
 
         // ROSA BARBIE
 
@@ -164,7 +155,6 @@ const store = {
         { name: 'Bear (Pink)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/z8gjMCD.png', raw: 'https://i.imgur.com/A4kC9hw.png' },
         { name: 'Cute (Pink)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/E02dWjp.png', raw: 'https://i.imgur.com/Z6Lcz8m.png' },
         { name: 'Pink Cat (Pink)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/EqQLA9c.png', raw: 'https://i.imgur.com/cmwI4SM.png' },
-        { name: 'Full rosa choque (Pink)', price: 50000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/8bEW3hm.png', raw: 'https://i.imgur.com/8bEW3hm.png' },
 
         // BANNER DARK RED
 
@@ -177,7 +167,6 @@ const store = {
         { name: 'Bear (Dark Red)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/gA1fVAW.png', raw: 'https://i.imgur.com/sG71x0Y.png' },
         { name: 'Cute (Dark Red)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/vTxHiZN.png', raw: 'https://i.imgur.com/psL35kh.png' },
         { name: 'Pink Cat (Dark Red)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/wQsCQ0o.png', raw: 'https://i.imgur.com/jc2EaJC.png' },
-        { name: 'Full vermelho escuro (Dark Red)', price: 50000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/G0cRcDn.png', raw: 'https://i.imgur.com/G0cRcDn.png' },
 
         // BANNER FOREST GREEN
 
@@ -190,7 +179,6 @@ const store = {
         { name: 'Bear (Forest Green)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/ODQX3e9.png', raw: 'https://i.imgur.com/k8LFtre.png' },
         { name: 'Cute (Forest Green)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/hgtXu13.png', raw: 'https://i.imgur.com/fkOY2r3.png' },
         { name: 'Pink Cat (Forest Green)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/RDvNY07.png', raw: 'https://i.imgur.com/jGTNxzC.png' },
-        { name: 'Full verde floresta (Forest Green)', price: 50000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/kw1pzPe.png', raw: 'https://i.imgur.com/kw1pzPe.png' },
 
         // BANNER BLUE OCEAN
 
@@ -204,7 +192,6 @@ const store = {
         { name: 'Bear (Blue Ocean)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/e8kMBXH.png', raw: 'https://i.imgur.com/GfABKen.png' },
         { name: 'Cute (Blue Ocean)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/ylg0B4a.png', raw: 'https://i.imgur.com/8V2ikx2.png' },
         { name: 'Pink Cat (Blue Ocean)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/UMSfcTj.png', raw: 'https://i.imgur.com/2lmPpDl.png' },
-        { name: 'Full azul oceano (Blue Ocean)', price: 50000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/JTbZb0D.png', raw: 'https://i.imgur.com/JTbZb0D.png' },
 
         // BANNER GREY
 
@@ -218,35 +205,34 @@ const store = {
         { name: 'Bear (Gray)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/G9Yiz9y.png', raw: 'https://i.imgur.com/mTfh3JE.png' },
         { name: 'Cute (Gray)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/5rKlBbu.png', raw: 'https://i.imgur.com/77TCYiu.png' },
         { name: 'Pink Cat (Gray)', price: 1000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/E9afKOK.png', raw: 'https://i.imgur.com/C4Tq6b1.png' },
-        { name: 'Full Cinza (Grey)', price: 50000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/e1teDG6.png', raw: 'https://i.imgur.com/e1teDG6.png' }
 
     ],
     molduras: [
-        { name: 'Default', price: 0, desc: 'Uma escolha linda e elegante!',rarity: '<:common:1373321022312415344> Comum',image: 'https://cdn.discordapp.com/attachments/1109146359975657542/1109146442330800148/KOl9E7Q.png', raw: 'null' },
-        { name: 'Red Tint', price: 25000000, desc: 'Uma escolha linda e elegante!',rarity: '<:common:1373321022312415344> Comum',image: 'https://i.imgur.com/57B0JFI.png', raw: './src/Assets/img/default/molduras/redtint.png' },
-        { name: 'Two Stars', price: 25000000, desc: 'Uma escolha linda e elegante!',rarity: '<:common:1373321022312415344> Comum',image: 'https://i.imgur.com/2CDjwie.png', raw: './src/Assets/img/default/molduras/star.png' },
-        { name: 'Flowers', price: 40000000, desc: 'Uma escolha linda e elegante!',rarity: '<:common:1373321022312415344> Comum',image: 'https://i.imgur.com/4hvALCG.png', raw: './src/Assets/img/default/molduras/flowers.png' },
-        { name: 'Cute Cat', price: 40000000, desc: 'Uma escolha linda e elegante!',rarity: '<:common:1373321022312415344> Comum',image: 'https://i.imgur.com/nv6EjT8.png', raw: './src/Assets/img/default/molduras/cutecat.png' },
-        { name: 'Blue Lightning', price: 60000000, desc: 'Uma escolha linda e elegante!',rarity: '<:common:1373321022312415344> Comum',image: 'https://i.imgur.com/8Q8DlL8.png', raw: './src/Assets/img/default/molduras/bluelightning.png' },
-        { name: 'Rose Lightning', price: 60000000, desc: 'Uma escolha linda e elegante!',rarity: '<:common:1373321022312415344> Comum',image: 'https://i.imgur.com/lNwAyzi.png', raw: './src/Assets/img/default/molduras/roselightning.png' },
-        { name: 'White Lightning', price: 60000000, desc: 'Uma escolha linda e elegante!',rarity: '<:common:1373321022312415344> Comum',image: 'https://i.imgur.com/JaQMlZz.png', raw: './src/Assets/img/default/molduras/whitelightning.png' },
-        { name: 'Water Katana', price: 120000000, desc: 'Uma escolha linda e elegante!',rarity: '<:common:1373321022312415344> Comum',image: 'https://i.imgur.com/XDvz1eq.png', raw: './src/Assets/img/default/molduras/whitekatana.png' },
-        { name: 'Star Pink', price: 120000000, desc: 'Uma escolha linda e elegante!',rarity: '<:common:1373321022312415344> Comum',image: 'https://i.imgur.com/Mnrle1U.png', raw: './src/Assets/img/default/molduras/StarPink.png' }, // FEITO
-        { name: 'Cruel Sun', price: 80000000, desc: 'Uma escolha linda e elegante!',rarity: '<:common:1373321022312415344> Comum',image: 'https://i.imgur.com/l72NONb.png', raw: './src/Assets/img/default/molduras/Sun.png' }, // FEITO
-        { name: 'Infinity Dark', price: 300000000, desc: 'Uma escolha linda e elegante!',rarity: '<:common:1373321022312415344> Comum',image: 'https://i.imgur.com/vgCG44X.png', raw: './src/Assets/img/default/molduras/InfinityDark.png' }, // FEITO
-        { name: 'Infinity Rose', price: 300000000, desc: 'Uma escolha linda e elegante!',rarity: '<:common:1373321022312415344> Comum',image: 'https://i.imgur.com/LNTr6qB.png', raw: './src/Assets/img/default/molduras/InfinityRose.png' }, // FEITO
-        { name: 'Infinity Blue', price: 300000000, desc: 'Uma escolha linda e elegante!',rarity: '<:common:1373321022312415344> Comum',image: 'https://i.imgur.com/QNtAx71.png', raw: './src/Assets/img/default/molduras/InfinityBlue.png' }, // FEITO
-        { name: 'Neon Line', price: 150000000, desc: 'Uma escolha linda e elegante!',rarity: '<:common:1373321022312415344> Comum',image: 'https://i.imgur.com/RHbB9j5.png', raw: './src/Assets/img/default/molduras/Neon.png' }, // FEITO
-        { name: 'Constellations', price: 150000000, desc: 'Uma escolha linda e elegante!',rarity: '<:common:1373321022312415344> Comum',image: 'https://i.imgur.com/q3G5tIH.png', raw: './src/Assets/img/default/molduras/Constellations.png' }, // FEITO
-        { name: 'Fire Lightning', price: 200000000, desc: 'Uma escolha linda e elegante!',rarity: '<:common:1373321022312415344> Comum',image: 'https://i.imgur.com/wIkNLpY.png', raw: './src/Assets/img/default/molduras/FireLightning.png' }, // FEITO
-        { name: 'Stars Spiral', price: 300000000, desc: 'Uma escolha linda e elegante!',rarity: '<:common:1373321022312415344> Comum',image: 'https://i.imgur.com/3oq5zdd.png', raw: './src/Assets/img/default/molduras/StarsSpiral.png' },
+        { name: 'Default', price: 0, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://cdn.discordapp.com/attachments/1109146359975657542/1109146442330800148/KOl9E7Q.png', raw: 'null' },
+        { name: 'Red Tint', price: 25000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/57B0JFI.png', raw: './src/Assets/img/default/molduras/redtint.png' },
+        { name: 'Two Stars', price: 25000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/2CDjwie.png', raw: './src/Assets/img/default/molduras/star.png' },
+        { name: 'Flowers', price: 40000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/4hvALCG.png', raw: './src/Assets/img/default/molduras/flowers.png' },
+        { name: 'Cute Cat', price: 40000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/nv6EjT8.png', raw: './src/Assets/img/default/molduras/cutecat.png' },
+        { name: 'Blue Lightning', price: 60000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/8Q8DlL8.png', raw: './src/Assets/img/default/molduras/bluelightning.png' },
+        { name: 'Rose Lightning', price: 60000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/lNwAyzi.png', raw: './src/Assets/img/default/molduras/roselightning.png' },
+        { name: 'White Lightning', price: 60000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/JaQMlZz.png', raw: './src/Assets/img/default/molduras/whitelightning.png' },
+        { name: 'Water Katana', price: 120000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/XDvz1eq.png', raw: './src/Assets/img/default/molduras/whitekatana.png' },
+        { name: 'Star Pink', price: 120000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/Mnrle1U.png', raw: './src/Assets/img/default/molduras/StarPink.png' }, // FEITO
+        { name: 'Cruel Sun', price: 80000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/l72NONb.png', raw: './src/Assets/img/default/molduras/Sun.png' }, // FEITO
+        { name: 'Infinity Dark', price: 300000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/vgCG44X.png', raw: './src/Assets/img/default/molduras/InfinityDark.png' }, // FEITO
+        { name: 'Infinity Rose', price: 300000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/LNTr6qB.png', raw: './src/Assets/img/default/molduras/InfinityRose.png' }, // FEITO
+        { name: 'Infinity Blue', price: 300000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/QNtAx71.png', raw: './src/Assets/img/default/molduras/InfinityBlue.png' }, // FEITO
+        { name: 'Neon Line', price: 150000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/RHbB9j5.png', raw: './src/Assets/img/default/molduras/Neon.png' }, // FEITO
+        { name: 'Constellations', price: 150000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/q3G5tIH.png', raw: './src/Assets/img/default/molduras/Constellations.png' }, // FEITO
+        { name: 'Fire Lightning', price: 200000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/wIkNLpY.png', raw: './src/Assets/img/default/molduras/FireLightning.png' }, // FEITO
+        { name: 'Stars Spiral', price: 300000000, desc: 'Uma escolha linda e elegante!', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/3oq5zdd.png', raw: './src/Assets/img/default/molduras/StarsSpiral.png' },
         { name: 'Sakura Glow', price: 900000000, desc: 'Flores de cerejeira e leveza em cada detalhe.', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/YkzeXUw.png', raw: 'https://i.imgur.com/76oc9Qy.png' },
         { name: 'Cyber Crown', price: 900000000, desc: 'Brilho rosa e poder tecnológico.', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/6gci4Md.png', raw: 'https://i.imgur.com/FapDwus.png' },
         { name: 'Rose Garden', price: 900000000, desc: 'Rosas suaves e toque romântico.', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/98FdKXY.png', raw: 'https://i.imgur.com/UAkpOPu.png' },
         { name: 'Heart Glow', price: 900000000, desc: 'Corações e energia amorosa.', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/b7HQP3c.png', raw: 'https://i.imgur.com/Hlul57x.png' },
         { name: 'Luna Bloom', price: 900000000, desc: 'Flores e borboletas em perfeita harmonia.', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/O3Vww2g.png', raw: 'https://i.imgur.com/WwN8FXI.png' },
         { name: 'Butterfly Kiss', price: 900000000, desc: 'Magia e frescor da primavera.', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/nrZBcHn.png', raw: 'https://i.imgur.com/XCcXR5a.png' }
-            ],
+    ],
     layouts: [
         {
             name: 'White Style',
@@ -256,7 +242,7 @@ const store = {
             desc: 'O Layout inicial da Kosame, bonito e fofinho 🥰',
             textcolor: '#000000',
             embedcolor: '#FFFFFF',
-            image: 'https://i.imgur.com/cxlSsBk.png',
+            image: 'https://i.imgur.com/wVdw4y8.png',
             raw: './src/Assets/img/default/profiles/jTD2ju8.png'
         },
         {

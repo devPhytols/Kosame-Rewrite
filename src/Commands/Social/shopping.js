@@ -119,7 +119,6 @@ module.exports = class ShoppingCommand extends Command {
                             '<:kslgaleria:1200606939613245451> **Layouts** - Altere completamente o visual do seu perfil.\n\n' +
                             '**Dicas:**\n' +
                             '• Use `k!profile` para ver seu perfil atual\n' +
-                            '• Use `k!equip <tipo> <nome>` para equipar itens que você já possui\n' +
                             '• Itens comprados ficam salvos na sua conta para sempre!\n\n' +
                             '**Servidor de Suporte:** https://discord.gg/kosame'
                         )
@@ -217,7 +216,7 @@ module.exports = class ShoppingCommand extends Command {
                     }
                     // NÃO equipa automaticamente backgrounds nem molduras
                     await user.save();
-                    return await i.update({ content: `✅ Você comprou **${item.name}**!\n-# Use \`k!equip\` para equipar seu novo item.`, embeds: [], components: [], flags: MessageFlags.Ephemeral });
+                    return await i.update({ content: `✅ Você comprou **${item.name}**!\n-# Use \`k!shop\` para equipar seu novo item.`, embeds: [], components: [], flags: MessageFlags.Ephemeral });
                 } else {
                     return await i.reply({ content: 'Saldo insuficiente.', flags: MessageFlags.Ephemeral });
                 }
