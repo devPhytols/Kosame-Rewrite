@@ -15,7 +15,7 @@ module.exports = class ProfilebgCommand extends Command {
         this.name = 'profilebg';
         this.type = ApplicationCommandType.ChatInput;
         this.description = 'Configurar o estilo do perfil.';
-        this.aliases = ['profilecf', 'perfilcf','pcf', 'custom'];
+        this.aliases = ['profilecf', 'perfilcf', 'pcf', 'custom'];
         this.config = {
             registerSlash: true
         };
@@ -62,9 +62,9 @@ module.exports = class ProfilebgCommand extends Command {
                 {
                     name: '**Background do Perfil**',
                     value:
-                user.profile.imagembg == 'https://i.pinimg.com/originals/81/d3/6f/81d36fb05994148a3e3305d6331892a8.jpg'
-                    ? '\`\`\`Background Padrão\`\`\`'
-                    : '```Background Personalizado```'
+                        user.profile.imagembg == 'https://i.pinimg.com/originals/81/d3/6f/81d36fb05994148a3e3305d6331892a8.jpg'
+                            ? '\`\`\`Background Padrão\`\`\`'
+                            : '```Background Personalizado```'
                 })
             .setThumbnail('https://i.imgur.com/uQyjk4Q.png', { size: 1024 });
 
@@ -120,7 +120,8 @@ module.exports = class ProfilebgCommand extends Command {
                         .setCustomId('select')
                         .setPlaceholder('Seleciona Uma Cor')
                         .addOptions([
-                            {   label: '[VIP 3.0] Azul/Blue',
+                            {
+                                label: '[VIP 3.0] Azul/Blue',
                                 emoji: '<:ksm_lblue:1116150189070241884>',
                                 description: 'Será definida a cor azul representada no icone.',
                                 value: 'cor1'
@@ -248,15 +249,17 @@ module.exports = class ProfilebgCommand extends Command {
                     new StringSelectMenuBuilder()
                         .setCustomId('select')
                         .setPlaceholder('Seleciona Uma Insignia')
-                        .addOptions([ 
-                            { label: 'VIP 1.0', emoji: '<:vip1:1175119303222239323>', description: 'Será definida a Insignia do VIP 1.0', value: 'bvip1' }, 
-                            { label: 'VIP 2.0', emoji: '<:vip2:1175119308997791744>', description: 'Será definida a Insignia do VIP 2.0', value: 'bvip2' }, 
-                            { label: 'VIP 3.0', emoji: '<:vip3:1175119305780760587> ', description: 'Será definida a Insignia do VIP 3.0', value: 'bvip3' }, 
-                            { label: 'VIP 4.0', emoji: '<:vip4:1152446097021743115>', description: 'Será definida a Insignia do VIP 4.0', value: 'bvip4' }, 
-                            { label: 'VIP 5.0', emoji: '<:vip5:1175128221411455109>', description: 'Será definida a Insignia do VIP 5.0', value: 'bvip5' }, 
-                            { label: 'VIP Ruby Prestige', emoji: '<:vip6:1274703071393349817>', description: 'Será definida a Insignia do VIP Ruby Prestige', value: 'bvip6' }, 
-                            { label: 'Vip Ruby Vanguard', emoji: '<:vip7:1274703111469924473>', description: 'Será definida a Insignia do VIP Ruby Vanguard', value: 'bvip7' }, 
-                            { label: 'Early VIP (Apenas Early)', emoji: '<:vipearly:1191389866479583334>', description: 'Será definida a Insignia do Early VIP 2021', value: 'bvip100' }, 
+                        .addOptions([
+                            { label: 'VIP 1.0', emoji: '<:vip1:1175119303222239323>', description: 'Será definida a Insignia do VIP 1.0', value: 'bvip1' },
+                            { label: 'VIP 2.0', emoji: '<:vip2:1175119308997791744>', description: 'Será definida a Insignia do VIP 2.0', value: 'bvip2' },
+                            { label: 'VIP 3.0', emoji: '<:vip3:1175119305780760587> ', description: 'Será definida a Insignia do VIP 3.0', value: 'bvip3' },
+                            { label: 'VIP 4.0', emoji: '<:vip4:1152446097021743115>', description: 'Será definida a Insignia do VIP 4.0', value: 'bvip4' },
+                            { label: 'VIP 5.0', emoji: '<:vip5:1175128221411455109>', description: 'Será definida a Insignia do VIP 5.0', value: 'bvip5' },
+                            { label: 'VIP Ruby Prestige', emoji: '<:vip6:1274703071393349817>', description: 'Será definida a Insignia do VIP Ruby Prestige', value: 'bvip6' },
+                            { label: 'Vip Ruby Vanguard', emoji: '<:vip7:1274703111469924473>', description: 'Será definida a Insignia do VIP Ruby Vanguard', value: 'bvip7' },
+                            { label: 'Vip Ruby Monarch', emoji: '<:ruby3:1286130507721080832> ', description: 'Será definida a Insignia do VIP Ruby Monarch', value: 'bvip8' },
+                            { label: 'Vip Red Sovereign', emoji: '<:ruby4:1286130505527328811>', description: 'Será definida a Insignia do VIP Red Sovereign', value: 'bvip9' },
+                            { label: 'Early VIP (Apenas Early)', emoji: '<:vipearly:1191389866479583334>', description: 'Será definida a Insignia do Early VIP 2021', value: 'bvip100' },
                             { label: 'Resetar', description: 'Volte a sua Insignia Original!', value: 'bvipreset' },
                             { label: 'Voltar', value: 'voltarmenu' }
                         ]));
@@ -324,7 +327,7 @@ module.exports = class ProfilebgCommand extends Command {
                             .setCustomId('profilebanner')
                             .setLabel('Banner do Perfil [Forneça a URL]')
                             .setMinLength(1)
-                            .setValue(user.profile.imagembg = user.profile.imagembg.replace('104.237.11.161','api.phytols.dev'))
+                            .setValue(user.profile.imagembg = user.profile.imagembg.replace('104.237.11.161', 'api.phytols.dev'))
                             .setStyle(TextInputStyle.Short)
                             .setRequired(true)
                     )
@@ -339,7 +342,7 @@ module.exports = class ProfilebgCommand extends Command {
                             .setCustomId('coinsbanner')
                             .setLabel('Banner do Coins [Forneça a URL]')
                             .setMinLength(1)
-                            .setValue(user.profile.coinsbg.replace('104.237.11.161','api.phytols.dev'))
+                            .setValue(user.profile.coinsbg.replace('104.237.11.161', 'api.phytols.dev'))
                             .setStyle(TextInputStyle.Short)
                             .setRequired(true)
                     )
@@ -348,7 +351,7 @@ module.exports = class ProfilebgCommand extends Command {
             const filter = (i) => {
                 return i.isStringSelectMenu() && i.message.id === msg.id;
             };
-            const msg = await message.reply({ content: `${message.author}`, embeds: [embed], components: [row], fetchReply: true });
+            const msg = await message.reply({ content: `${message.author}`, embeds: [embed], components: [row] });
             const collector = msg.createMessageComponentCollector({ filter, time: 120000 });
 
             collector.on('end', () => {
@@ -371,223 +374,237 @@ module.exports = class ProfilebgCommand extends Command {
 
                 if (value === 'opc1') {
                     if (!user.vip.hasVip) {
-                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP** para utilizar essa opção!', embeds: [], components: [], fetchReply: true });
+                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP** para utilizar essa opção!', embeds: [], components: [] });
                     }
                     return collected.showModal(modal);
                 } else if (value === 'opc2') {
-                    return collected.update({ components: [rowBg], fetchReply: true });
+                    return collected.update({ components: [rowBg] });
                 } else if (value === 'opc3') {
                     if (vip.upgrade < 3) {
-                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP 3.0** para utilizar essa opção!', embeds: [], components: [], fetchReply: true });
+                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP 3.0** para utilizar essa opção!', embeds: [], components: [] });
                     }
-                    return collected.update({ components: [rowColors], fetchReply: true });
+                    return collected.update({ components: [rowColors] });
                 } else if (value === 'opc5') {
                     if (vip.upgrade < 5) {
-                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP 5.0** para utilizar essa opção!', embeds: [], components: [], fetchReply: true });
+                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP 5.0** para utilizar essa opção!', embeds: [], components: [] });
                     }
-                    return collected.update({ components: [rowInsigniaVIP], fetchReply: true });
+                    return collected.update({ components: [rowInsigniaVIP] });
                 } else if (value === 'opc6') {
                     if (vip.upgrade < 10) {
-                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP Onyx** para utilizar essa opção!', embeds: [], components: [], fetchReply: true });
+                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP Onyx** para utilizar essa opção!', embeds: [], components: [] });
                     }
-                    return collected.update({ components: [rowBannerGifs], fetchReply: true });
+                    return collected.update({ components: [rowBannerGifs] });
                 } else if (value === 'opc4') {
                     if (!user.vip.hasVip) {
-                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP** para utilizar essa opção!', embeds: [], components: [], fetchReply: true });
+                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP** para utilizar essa opção!', embeds: [], components: [] });
                     }
                     return collected.showModal(modalCoins);
                 } else if (value === 'bvip1') {
                     user.vip.bLevel = 1;
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a insignia do seu vip como <:vip1:1175119303222239323> **VIP 1.0**.`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a insignia do seu vip como <:vip1:1175119303222239323> **VIP 1.0**.`, embeds: [], components: [] });
                 } else if (value === 'bvip2') {
                     user.vip.bLevel = 2;
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a insignia do seu vip como <:vip2:1175119308997791744> **VIP 2.0**.`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a insignia do seu vip como <:vip2:1175119308997791744> **VIP 2.0**.`, embeds: [], components: [] });
                 } else if (value === 'bvip3') {
                     user.vip.bLevel = 3;
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a insignia do seu vip como <:vip3:1175119305780760587> **VIP 3.0**.`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a insignia do seu vip como <:vip3:1175119305780760587> **VIP 3.0**.`, embeds: [], components: [] });
                 } else if (value === 'bvip4') {
                     user.vip.bLevel = 4;
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a insignia do seu vip como <:vip4:1152446097021743115> **VIP 4.0**.`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a insignia do seu vip como <:vip4:1152446097021743115> **VIP 4.0**.`, embeds: [], components: [] });
                 } else if (value === 'bvip5') {
                     user.vip.bLevel = 5;
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a insignia do seu vip como <:vip5:1175128221411455109> **VIP 5.0**.`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a insignia do seu vip como <:vip5:1175128221411455109> **VIP 5.0**.`, embeds: [], components: [] });
                 } else if (value === 'bvip6') {
                     if (vip.upgrade < 6) {
-                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **Vip Ruby Prestige+** para utilizar essa opção!', embeds: [], components: [], fetchReply: true });
+                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **Vip Ruby Prestige+** para utilizar essa opção!', embeds: [], components: [] });
                     }
                     user.vip.bLevel = 6;
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a insignia do seu vip como <:vip6:1274703071393349817> **VIP Ruby Prestige**.`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a insignia do seu vip como <:vip6:1274703071393349817> **VIP Ruby Prestige**.`, embeds: [], components: [] });
                 } else if (value === 'bvip7') {
                     if (vip.upgrade < 7) {
-                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **Vip Ruby Vanguard+** para utilizar essa opção!', embeds: [], components: [], fetchReply: true });
+                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **Vip Ruby Vanguard+** para utilizar essa opção!', embeds: [], components: [] });
                     }
                     user.vip.bLevel = 7;
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a insignia do seu vip como <:vip7:1274703111469924473> **Vip Ruby Vanguard**.`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a insignia do seu vip como <:vip7:1274703111469924473> **Vip Ruby Vanguard**.`, embeds: [], components: [] });
+                } else if (value === 'bvip8') {
+                    if (vip.upgrade < 8) {
+                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **Vip Ruby Monarch+** para utilizar essa opção!', embeds: [], components: [] });
+                    }
+                    user.vip.bLevel = 8;
+                    user.save();
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a insignia do seu vip como <:ruby3:1286130507721080832> **Vip Ruby Monarch**.`, embeds: [], components: [] });
+                } else if (value === 'bvip9') {
+                    if (vip.upgrade < 9) {
+                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **Vip Red Sovereign+** para utilizar essa opção!', embeds: [], components: [] });
+                    }
+                    user.vip.bLevel = 9;
+                    user.save();
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a insignia do seu vip como <:ruby4:1286130505527328811> **Vip Red Sovereign**.`, embeds: [], components: [] });
                 } else if (value === 'bvip100') {
                     if (!vip.early) {
-                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **Early VIP** para utilizar essa opção!', embeds: [], components: [], fetchReply: true });
+                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **Early VIP** para utilizar essa opção!', embeds: [], components: [] });
                     }
 
                     user.vip.bLevel = 100;
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a insignia do seu vip como <:vipearly:1191389866479583334> **Early VIP**.`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a insignia do seu vip como <:vipearly:1191389866479583334> **Early VIP**.`, embeds: [], components: [] });
                 } else if (value === 'bvipreset') {
                     user.vip.bLevel = 0;
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você resetou sua insignia ao Vip Original.`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você resetou sua insignia ao Vip Original.`, embeds: [], components: [] });
                 } else if (value === 'cor1') {
                     user.profile.textcolor = '#2980BA';
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Azul/Blue e ela já foi definida em seu perfil!`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Azul/Blue e ela já foi definida em seu perfil!`, embeds: [], components: [] });
                 } else if (value === 'cor2') {
                     user.profile.textcolor = '#DF2121';
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Vermelho/Red e ela já foi definida em seu perfil!`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Vermelho/Red e ela já foi definida em seu perfil!`, embeds: [], components: [] });
                 } else if (value === 'cor3') {
                     if (user.layouts.purple.equipped) {
-                        return collected.update({ content: `❌ ${message.author}, você está utilizando o layout roxo, portanto não pode equipar esta cor!`, embeds: [], components: [], fetchReply: true });
+                        return collected.update({ content: `❌ ${message.author}, você está utilizando o layout roxo, portanto não pode equipar esta cor!`, embeds: [], components: [] });
                     }
                     user.profile.textcolor = '#9D21DF';
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Roxo/Purple e ela já foi definida em seu perfil!`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Roxo/Purple e ela já foi definida em seu perfil!`, embeds: [], components: [] });
                 } else if (value === 'cor4') {
                     user.profile.textcolor = '#FFB9F0';
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Rosa/Rose e ela já foi definida em seu perfil!`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Rosa/Rose e ela já foi definida em seu perfil!`, embeds: [], components: [] });
                 } else if (value === 'cor5') {
                     user.profile.textcolor = '#FF9A3D';
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Laranja/Orange e ela já foi definida em seu perfil!`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Laranja/Orange e ela já foi definida em seu perfil!`, embeds: [], components: [] });
                 } else if (value === 'cor6') {
                     if (user.layouts.white.equipped) {
-                        return collected.update({ content: `❌ ${message.author}, você está utilizando o layout branco, portanto não pode equipar esta cor!`, embeds: [], components: [], fetchReply: true });
+                        return collected.update({ content: `❌ ${message.author}, você está utilizando o layout branco, portanto não pode equipar esta cor!`, embeds: [], components: [] });
                     }
                     if (user.layouts.wamoled.equipped) {
-                        return collected.update({ content: `❌ ${message.author}, você está utilizando o layout White Amoled, portanto não pode equipar esta cor!`, embeds: [], components: [], fetchReply: true });
+                        return collected.update({ content: `❌ ${message.author}, você está utilizando o layout White Amoled, portanto não pode equipar esta cor!`, embeds: [], components: [] });
                     }
                     user.profile.textcolor = '#FFFFFF';
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Branco/White e ela já foi definida em seu perfil!`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Branco/White e ela já foi definida em seu perfil!`, embeds: [], components: [] });
                 } else if (value === 'cor7') {
                     user.profile.textcolor = '#ffec00';
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Amarelo e ela já foi definida em seu perfil!`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Amarelo e ela já foi definida em seu perfil!`, embeds: [], components: [] });
                 } else if (value === 'cor8') {
                     if (user.layouts.black.equipped) {
-                        return collected.update({ content: `❌ ${message.author}, você está utilizando o layout preto, portanto não pode equipar esta cor!`, embeds: [], components: [], fetchReply: true });
+                        return collected.update({ content: `❌ ${message.author}, você está utilizando o layout preto, portanto não pode equipar esta cor!`, embeds: [], components: [] });
                     }
                     if (user.layouts.amoled.equipped) {
-                        return collected.update({ content: `❌ ${message.author}, você está utilizando o layout Amoled, portanto não pode equipar esta cor!`, embeds: [], components: [], fetchReply: true });
+                        return collected.update({ content: `❌ ${message.author}, você está utilizando o layout Amoled, portanto não pode equipar esta cor!`, embeds: [], components: [] });
                     }
                     user.profile.textcolor = '#000001';
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Preta e ela já foi definida em seu perfil!`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Preta e ela já foi definida em seu perfil!`, embeds: [], components: [] });
                 } else if (value === 'cor9') {
                     user.profile.textcolor = '#12ff00';
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Verde e ela já foi definida em seu perfil!`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Verde e ela já foi definida em seu perfil!`, embeds: [], components: [] });
                 } else if (value === 'cor10') {
                     if (user.layouts.cyan.equipped) {
-                        return collected.update({ content: `❌ ${message.author}, você está utilizando o layout ciano, portanto não pode equipar esta cor!`, embeds: [], components: [], fetchReply: true });
+                        return collected.update({ content: `❌ ${message.author}, você está utilizando o layout ciano, portanto não pode equipar esta cor!`, embeds: [], components: [] });
                     }
                     user.profile.textcolor = '#5FF1F0';
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Ciano e ela já foi definida em seu perfil!`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Ciano e ela já foi definida em seu perfil!`, embeds: [], components: [] });
                 } else if (value === 'cor11') {
                     user.profile.textcolor = '#00008B';
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Azul Escuro e ela já foi definida em seu perfil!`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Azul Escuro e ela já foi definida em seu perfil!`, embeds: [], components: [] });
                 } else if (value === 'cor12') {
                     user.profile.textcolor = '#7FFFD4';
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Verde Água e ela já foi definida em seu perfil!`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Verde Água e ela já foi definida em seu perfil!`, embeds: [], components: [] });
                 } else if (value === 'cor13') {
                     if (vip.upgrade < 5) {
-                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP 5.0** para utilizar essa cor!', embeds: [], components: [], fetchReply: true });
+                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP 5.0** para utilizar essa cor!', embeds: [], components: [] });
                     }
                     user.profile.textcolor = '#ff56e1';
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Rosa/Pink e ela já foi definida em seu perfil!`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Rosa/Pink e ela já foi definida em seu perfil!`, embeds: [], components: [] });
                 } else if (value === 'cor14') {
                     if (vip.upgrade < 5) {
-                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP 5.0** para utilizar essa cor!', embeds: [], components: [], fetchReply: true });
+                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP 5.0** para utilizar essa cor!', embeds: [], components: [] });
                     }
                     user.profile.textcolor = '#7de94a';
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Verde Esmeralda e ela já foi definida em seu perfil!`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Verde Esmeralda e ela já foi definida em seu perfil!`, embeds: [], components: [] });
                 } else if (value === 'cor15') {
                     if (vip.upgrade < 5) {
-                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP 5.0** para utilizar essa cor!', embeds: [], components: [], fetchReply: true });
+                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP 5.0** para utilizar essa cor!', embeds: [], components: [] });
                     }
                     user.profile.textcolor = '#d9a31f';
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Dourado Pérola e ela já foi definida em seu perfil!`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Dourado Pérola e ela já foi definida em seu perfil!`, embeds: [], components: [] });
                 } else if (value === 'cor16') {
                     if (vip.upgrade < 6) {
-                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP Ruby** para utilizar essa cor!', embeds: [], components: [], fetchReply: true });
+                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP Ruby** para utilizar essa cor!', embeds: [], components: [] });
                     }
                     user.profile.textcolor = '#323540';
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Cinza/Gray e ela já foi definida em seu perfil!`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Cinza/Gray e ela já foi definida em seu perfil!`, embeds: [], components: [] });
                 } else if (value === 'cor17') {
                     if (vip.upgrade < 6) {
-                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP Ruby** para utilizar essa cor!', embeds: [], components: [], fetchReply: true });
+                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP Ruby** para utilizar essa cor!', embeds: [], components: [] });
                     }
                     user.profile.textcolor = '#768fe3';
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Azul Aurora/Aurora Blue e ela já foi definida em seu perfil!`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Azul Aurora/Aurora Blue e ela já foi definida em seu perfil!`, embeds: [], components: [] });
                 } else if (value === 'cor18') {
                     if (vip.upgrade < 6) {
-                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP Ruby** para utilizar essa cor!', embeds: [], components: [], fetchReply: true });
+                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP Ruby** para utilizar essa cor!', embeds: [], components: [] });
                     }
                     user.profile.textcolor = '#8B0000';
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Vermelho Escuro/Dark Red e ela já foi definida em seu perfil!`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Vermelho Escuro/Dark Red e ela já foi definida em seu perfil!`, embeds: [], components: [] });
                 } else if (value === 'cor19') {
                     if (vip.upgrade < 6) {
-                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP Ruby** para utilizar essa cor!', embeds: [], components: [], fetchReply: true });
+                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP Ruby** para utilizar essa cor!', embeds: [], components: [] });
                     }
                     user.profile.textcolor = '#c7cffc';
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Branco Neve/Snow White e ela já foi definida em seu perfil!`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Branco Neve/Snow White e ela já foi definida em seu perfil!`, embeds: [], components: [] });
                 } else if (value === 'cor20') {
                     if (vip.upgrade < 6) {
-                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP Ruby** para utilizar essa cor!', embeds: [], components: [], fetchReply: true });
+                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP Ruby** para utilizar essa cor!', embeds: [], components: [] });
                     }
                     user.profile.textcolor = '#571553';
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Roxo Escuro/Dark Purple e ela já foi definida em seu perfil!`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você definiu a cor Roxo Escuro/Dark Purple e ela já foi definida em seu perfil!`, embeds: [], components: [] });
                 } else if (value === 'bgif1') {
                     user.profile.coinsgif = 'https://i.imgur.com/ftpfJFO.gif';
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você escolheu o gif *Blue Galaxy* e ele já foi definido em seu perfil!`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você escolheu o gif *Blue Galaxy* e ele já foi definido em seu perfil!`, embeds: [], components: [] });
                 } else if (value === 'bgif2') {
                     user.profile.coinsgif = 'https://i.imgur.com/EJE6gR8.gif';
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você escolheu o gif *Fall* e ele já foi definido em seu perfil!`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você escolheu o gif *Fall* e ele já foi definido em seu perfil!`, embeds: [], components: [] });
                 } else if (value === 'bgif3') {
                     user.profile.coinsgif = 'https://i.imgur.com/nfZHtC1.gif';
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você escolheu o gif *Sakura River* e ele já foi definido em seu perfil!`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você escolheu o gif *Sakura River* e ele já foi definido em seu perfil!`, embeds: [], components: [] });
                 } else if (value === 'bgif4') {
                     user.profile.coinsgif = 'https://i.imgur.com/ImahGQD.gif';
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você escolheu o gif *Pink Lake* e ele já foi definido em seu perfil!`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você escolheu o gif *Pink Lake* e ele já foi definido em seu perfil!`, embeds: [], components: [] });
                 } else if (value === 'bgif5') {
                     user.profile.coinsgif = 'https://i.imgur.com/ubX0EKC.gif';
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você escolheu o gif *Asian Life* e ele já foi definido em seu perfil!`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você escolheu o gif *Asian Life* e ele já foi definido em seu perfil!`, embeds: [], components: [] });
                 } else if (value === 'disablegif') {
                     user.profile.coinsgif = null;
                     user.save();
-                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você desativou o gif de fundo e ele foi removido de seu banco!`, embeds: [], components: [], fetchReply: true });
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você desativou o gif de fundo e ele foi removido de seu banco!`, embeds: [], components: [] });
                 } else if (selectedLayout && user.layouts[layoutKey]) {
                     user.profile.layout = selectedLayout.layout;
                     user.profile.textcolor = selectedLayout.textcolor;
@@ -605,14 +622,14 @@ module.exports = class ProfilebgCommand extends Command {
                         fetchReply: true
                     });
                 } else if (value === 'voltarmenu') {
-                    return collected.update({ content: `${message.author}`, embeds: [embed], components: [row], fetchReply: true });
+                    return collected.update({ content: `${message.author}`, embeds: [embed], components: [row] });
                 }
             });
         }
 
         if (args[0] == 'img') {
             if (!user.vip.hasVip) {
-                return message.reply({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP** para utilizar essa opção!', embeds: [], components: [], fetchReply: true });
+                return message.reply({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP** para utilizar essa opção!', embeds: [], components: [] });
             }
 
             const bgi = args.slice(1).join(' ');
@@ -648,7 +665,7 @@ module.exports = class ProfilebgCommand extends Command {
 
         if (args[0] == 'avatar') {
             if (user.vip.upgrade < 6) {
-                return message.reply({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP Ruby** para utilizar essa opção!', embeds: [], components: [], fetchReply: true });
+                return message.reply({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP Ruby** para utilizar essa opção!', embeds: [], components: [] });
             }
 
             const bg = args.slice(1).join(' ');
@@ -686,7 +703,7 @@ module.exports = class ProfilebgCommand extends Command {
 
         if (args[0] == 'reset') {
             if (user.vip.upgrade < 6) {
-                return message.reply({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP Ruby** para utilizar essa opção!', embeds: [], components: [], fetchReply: true });
+                return message.reply({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP Ruby** para utilizar essa opção!', embeds: [], components: [] });
             }
 
             message.reply({ content: '<:kosame_Correct:1010978511839842385> O seu avatar de perfil foi resetado com sucesso!' });

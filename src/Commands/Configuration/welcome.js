@@ -1,4 +1,4 @@
-const { ApplicationCommandType, ApplicationCommandOptionType, ActionRowBuilder, StringSelectMenuBuilder, ModalBuilder, TextInputStyle, TextInputBuilder, InteractionType } = require('discord.js');
+const { ApplicationCommandType, ApplicationCommandOptionType, ActionRowBuilder, StringSelectMenuBuilder, ChannelSelectMenuBuilder, ChannelType, ModalBuilder, TextInputStyle, TextInputBuilder, InteractionType, PermissionFlagsBits } = require('discord.js');
 const { ClientEmbed } = require('../../Structures/ClientEmbed');
 const { Command } = require('../../Structures/Structures');
 
@@ -23,9 +23,9 @@ module.exports = class WelcomeCommand extends Command {
      */
     async commandExecute({ message, args }) {
 
-        if (!message.member.permissions.has('ManageGuild'))
+        if (!message.member.permissions.has(PermissionFlagsBits.ManageGuild))
             return message.reply(`<:emoji_012:839153898774069268> ${message.author}, você não tem **permissões** para utilizar esse comando!`);
-        
+
         const gSrc = await this.client.database.guilds.findOne({ idS: message.guild.id });
 
         const Embed = new ClientEmbed()
@@ -35,11 +35,11 @@ module.exports = class WelcomeCommand extends Command {
             .setThumbnail(this.client.user.displayAvatarURL({ extension: 'jpg', size: 2048 }));
 
         const channels = Array.from(await message.guild.channels.cache.filter(channel => channel.type === 0).values()).slice(0, 10);
-        const channelOptions = channels.map(channel => ({
-            label: channel.name,
-            description: channel.name,
-            value: channel.id,
-        }));
+
+        const canaisMenu = new ChannelSelectMenuBuilder()
+            .setCustomId('canais-menu')
+            .setPlaceholder('Selecione um canal de texto')
+            .setChannelTypes(ChannelType.GuildText);
 
         const systemMenu = new StringSelectMenuBuilder()
             .setCustomId('system-menu')
@@ -111,39 +111,35 @@ module.exports = class WelcomeCommand extends Command {
                 }
             ]);
 
-            const modal = new ModalBuilder()
-                .setCustomId('modalWelcome')
-                .setTitle('Configuração do Welcome')
-                .addComponents([
-                    new ActionRowBuilder().addComponents(
-                        new TextInputBuilder()
+        const modal = new ModalBuilder()
+            .setCustomId('modalWelcome')
+            .setTitle('Configuração do Welcome')
+            .addComponents([
+                new ActionRowBuilder().addComponents(
+                    new TextInputBuilder()
                         .setCustomId('welcomeMsg')
                         .setLabel("Mensagem do Welcome")
                         .setMinLength(5)
                         .setStyle(TextInputStyle.Paragraph)
                         .setRequired(true)
-                    ),
-                    new ActionRowBuilder().addComponents(
-                        new TextInputBuilder()
+                ),
+                new ActionRowBuilder().addComponents(
+                    new TextInputBuilder()
                         .setCustomId('welcomeImg')
                         .setLabel("Imagem de Fundo [Forneça a URL]")
                         .setMinLength(10)
                         .setValue(gSrc.welcome.background)
                         .setStyle(TextInputStyle.Short)
                         .setRequired(true)
-                    ),
-                ])
+                ),
+            ])
 
-        const canaisMenu = new StringSelectMenuBuilder()
-            .setCustomId('canais-menu')
-            .setPlaceholder('Selecione um canal')
-            .addOptions(channelOptions);
 
         const menuMessage = await message.reply({ embeds: [Embed], components: [new ActionRowBuilder().addComponents(systemMenu)] });
 
         // Filtro para coleta da interação
         const filter = (i) => {
-            return i.isStringSelectMenu() && i.message.id === menuMessage.id;
+            return (i.isStringSelectMenu() || i.isChannelSelectMenu()) && i.message.id === menuMessage.id;
         };
 
         // Definindo o filtro no coletor
@@ -205,7 +201,7 @@ module.exports = class WelcomeCommand extends Command {
             }
 
             // Pega o canal a partir do ID selecionado
-            const canal = message.guild.channels.cache.get(value); 
+            const canal = message.guild.channels.cache.get(value);
             // Envia uma mensagem de confirmação
             await this.client.database.guilds.findOneAndUpdate(
                 { idS: message.guild.id },

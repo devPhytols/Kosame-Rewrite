@@ -355,14 +355,19 @@ module.exports = class RankcoinsCommand extends Command {
                     }
                 }
 
-                // Busca usuários ordenados por total de meias já obtidas (evento.moeda2)
+                // Busca usuários ordenados por total de meias
                 const usersData = await this.client.database.users.find({ 'evento.moeda2': { $gt: 1 } })
                     .sort({ 'evento.moeda2': -1 })
-                    .limit(12);
+                    .limit(12)
+                    .lean();
 
                 if (usersData.length === 0) {
                     return message.reply('Ainda não há usuários com meias natalinas no ranking!');
                 }
+
+                // Fetch todos os usuários em paralelo
+                const userPromises = usersData.map(u => this.client.users.fetch(u.idU).catch(() => null));
+                const users = await Promise.all(userPromises);
 
                 // Criando a Imagem
                 const canvas = createCanvas(800, 500);
@@ -370,31 +375,26 @@ module.exports = class RankcoinsCommand extends Command {
                 let BG = await loadImage('./src/Assets/img/default/general/ranknatal.png');
                 ctx.drawImage(BG, 0, 0, canvas.width, canvas.height);
 
-                // Layout baseado no Photoshop - ajustado
-                const startY = 175;      // Posição Y inicial (+15px)
-                const rowHeight = 58;    // Espaçamento entre linhas
+                // Carrega todos os avatares em paralelo
+                const avatarPromises = users.map(user =>
+                    user ? loadImage(user.displayAvatarURL({ extension: 'png', size: 128 })).catch(() => null) : Promise.resolve(null)
+                );
+                const avatars = await Promise.all(avatarPromises);
 
-                // Coluna esquerda (posições 1-6)
-                const leftAvatarX = 52;
-                const leftNameX = 85;
-                const leftMeiasX = 320;
-
-                // Coluna direita (posições 7-12)
-                const rightAvatarX = 448;
-                const rightNameX = 480;
-                const rightMeiasX = 724;
-
+                // Layout
+                const startY = 175;
+                const rowHeight = 58;
+                const leftAvatarX = 52, leftNameX = 85, leftMeiasX = 320;
+                const rightAvatarX = 448, rightNameX = 480, rightMeiasX = 724;
                 const avatarRadius = 25;
 
                 for (let i = 0; i < Math.min(usersData.length, 12); i++) {
-                    const userData = usersData[i];
-                    const user = await this.client.users.fetch(userData.idU).catch(() => null);
+                    const user = users[i];
                     if (!user) continue;
 
-                    const meias = userData.evento?.moeda2 || 0; // Total histórico
+                    const meias = usersData[i].evento?.moeda2 || 0;
                     const NAME = user.username.slice(0, 12);
 
-                    // Determina coluna e posição Y
                     const isLeftColumn = i < 6;
                     const rowIndex = isLeftColumn ? i : i - 6;
                     const y = startY + rowIndex * rowHeight;
@@ -410,7 +410,7 @@ module.exports = class RankcoinsCommand extends Command {
                     ctx.closePath();
                     ctx.clip();
 
-                    const AVATAR = await loadImage(user.displayAvatarURL({ extension: 'png', size: 128 })).catch(() => null);
+                    const AVATAR = avatars[i];
                     if (AVATAR) {
                         ctx.drawImage(AVATAR, avatarX - avatarRadius, y - avatarRadius, avatarRadius * 2, avatarRadius * 2);
                     }
