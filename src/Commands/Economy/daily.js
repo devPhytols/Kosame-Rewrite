@@ -33,6 +33,9 @@ module.exports = class DailyCommand extends Command {
         const give = Math.floor(Math.random() * (500000 - 1000000)) + 1000000;
         const vip = user.vip;
 
+        // Verifica se tem XP duplo ativo
+        const xpDuploAtivo = (user?.evento?.cooldown || 0) > Date.now();
+
         const cooldown = 8.64e7;
         let coins;
         let exibeExtra;
@@ -105,10 +108,14 @@ module.exports = class DailyCommand extends Command {
             return message.reply({ embeds: [EMBED1] });
 
         } else {
+            // Aplica XP duplo se ativo
+            const xpFinal = xpDuploAtivo ? xpGive * 2 : xpGive;
+            const xpDuploMsg = xpDuploAtivo ? `\n<:santaclaus2:1447757902201749615> **XP Duplo ativo!** (+${xpGive} bônus)` : '';
+
             const EMBED2 = new EmbedBuilder(message.author)
                 .setColor('#FFFFFF')
                 .setAuthor({ name: `${message.author.tag}`, iconURL: message.author.displayAvatarURL(() => ({ dynamic: true })) })
-                .setDescription(`**<:coins:842208238631125053> Você ganhou **${coins}** coins + **${xpGive}** XP no daily!**\n${user.vip.hasVip ? `<:vipinfo:1047247009796599830> +${Util.toAbbrev(exibeExtra)} coins **(VIP ${type[vip.upgrade].name})**!\n\n` : ''}<:kosamebank:1009206036294545428> Agora você possui **${Util.toAbbrev(atual + coins + banco)}** coins.`)
+                .setDescription(`**<:coins:842208238631125053> Você ganhou **${coins}** coins + **${xpFinal}** XP no daily!**\n${user.vip.hasVip ? `<:vipinfo:1047247009796599830> +${Util.toAbbrev(exibeExtra)} coins **(VIP ${type[vip.upgrade].name})**!\n\n` : ''}${xpDuploMsg}<:kosamebank:1009206036294545428> Agora você possui **${Util.toAbbrev(atual + coins + banco)}** coins.`)
                 .setFooter({ text: 'Sabia que agora você pode apostar eles? utilize k!apostar' })
                 .setThumbnail('https://cdn.discordapp.com/attachments/1109147495377944637/1109148220694745138/s337k4z.png', { size: 1024 });
 
@@ -118,7 +125,7 @@ module.exports = class DailyCommand extends Command {
                 { idU: message.author.id },
                 {
                     $inc: { coins: coins },
-                    $set: { daily: Date.now(), 'Exp.xp': userXp + xpGive }
+                    $set: { daily: Date.now(), 'Exp.xp': userXp + xpFinal }
                 }
             );
         }

@@ -825,15 +825,16 @@ module.exports = class interactionCreateEvent extends Event {
                             break;
 
                         case 'xp':
-                            // Adiciona XP duplo por 30 dias
+                            // Adiciona XP duplo por 30 dias (acumula se já tiver)
                             const trintaDias = 30 * 24 * 60 * 60 * 1000;
-                            const xpBoostExpira = Date.now() + trintaDias;
+                            const xpAtual = userData?.evento?.cooldown || 0;
+                            const novaDataXp = xpAtual > Date.now() ? xpAtual + trintaDias : Date.now() + trintaDias;
 
                             await this.client.database.users.findOneAndUpdate(
                                 { idU: interaction.user.id },
-                                { $set: { 'xpBoost': xpBoostExpira } }
+                                { $set: { 'evento.cooldown': novaDataXp } }
                             );
-                            mensagemExtra = '\n\n✅ **XP Duplo ativado por 30 dias!**';
+                            mensagemExtra = `\n\n✅ **XP Duplo ativado!** Válido até <t:${Math.floor(novaDataXp / 1000)}:F>`;
                             break;
 
                         case 'moldura':

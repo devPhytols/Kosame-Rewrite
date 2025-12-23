@@ -38,6 +38,10 @@ module.exports = class WorkCommand extends Command {
         const xpProfile = user.vip.hasVip ? uXP + 90 : uXP + verifyUserXP;
         const work = user.work.cooldown;
         const cooldown = 3.6e6;
+
+        // Verifica se tem XP duplo ativo
+        const xpDuploAtivo = (user?.evento?.cooldown || 0) > Date.now();
+
         let money;
         let exibeMoney;
         if (vip.upgrade === 1) {
@@ -97,10 +101,15 @@ module.exports = class WorkCommand extends Command {
                     }
                 });
             } else {
+                // Aplica XP duplo se ativo
+                const xpFinal = xpDuploAtivo ? xp * 2 : xp;
+                const xpProfileFinal = xpDuploAtivo ? xpProfile * 2 : xpProfile;
+                const xpDuploMsg = xpDuploAtivo ? `\n<:santaclaus2:1447757902201749615> **XP Duplo ativo!** (+${xp} bônus)` : '';
+
                 const embedPegaWork = new EmbedBuilder(message.author)
                     .setColor('#FFFFFF')
                     .setAuthor({ name: `${message.author.tag}`, iconURL: message.author.displayAvatarURL(() => ({ dynamic: true })) })
-                    .setDescription(`<:work:846536054399303700> **Você trabalhou e recebeu:**\n<:coins:842208238631125053> ${Util.toAbbrev(money)} coins + ${xp} de XP\n${user.vip.hasVip ? `<:vipinfo:1047247009796599830> +${Util.toAbbrev(exibeMoney)} coins + 80 XP **(VIP ${type[vip.upgrade].name})**!` : ''}`)
+                    .setDescription(`<:work:846536054399303700> **Você trabalhou e recebeu:**\n<:coins:842208238631125053> ${Util.toAbbrev(money)} coins + ${xpFinal} de XP\n${user.vip.hasVip ? `<:vipinfo:1047247009796599830> +${Util.toAbbrev(exibeMoney)} coins + 80 XP **(VIP ${type[vip.upgrade].name})**!` : ''}${xpDuploMsg}`)
                     .setFooter({ text: 'Sabia que agora você pode apostar eles? utilize k!apostar' })
                     .setThumbnail('https://cdn.discordapp.com/attachments/1109147495377944637/1109148372549509170/8WS3Yxj.png', { size: 1024 });
 
@@ -110,9 +119,9 @@ module.exports = class WorkCommand extends Command {
                 }, {
                     $inc: { coins: money },
                     $set: {
-                        'Exp.xp': xpProfile,
+                        'Exp.xp': xpProfileFinal,
                         'work.cooldown': Date.now(),
-                        'work.exp': user.work.exp + xp > nextlevel ? 0 : user.work.exp + xp
+                        'work.exp': user.work.exp + xpFinal > nextlevel ? 0 : user.work.exp + xpFinal
                     }
                 });
             }
