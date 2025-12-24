@@ -34,12 +34,19 @@ module.exports = class FichaCommand extends Command {
      */
     async commandExecute({ message, args }) {
 
-        const USER =
-      this.client.users.cache.get(args[0]) ||
-      message.mentions?.users?.first() ||
-      message.author;
+        // Busca o usuário corretamente (com fetch para evitar problemas de cache)
+        let USER = message.author;
+        if (message.mentions?.users?.first()) {
+            USER = message.mentions.users.first();
+        } else if (args[0]) {
+            try {
+                USER = await this.client.users.fetch(args[0]);
+            } catch {
+                USER = message.author;
+            }
+        }
 
-        if(USER.bot)
+        if (USER.bot)
             return;
 
         const user = await this.client.database.users.findOne({ idU: USER.id });

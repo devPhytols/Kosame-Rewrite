@@ -17,7 +17,16 @@ module.exports = class ReputacoesCommand extends Command {
     }
 
     async commandExecute({ message, args }) {
-        const user = this.client.users.cache.get(args[0]) || message.mentions?.users?.first() || message.author;
+        // Busca o usuário corretamente (com fetch para evitar problemas de cache)
+        let user = message.mentions?.users?.first() || message.author;
+        if (!message.mentions?.users?.first() && args[0]) {
+            try {
+                user = await this.client.users.fetch(args[0]);
+            } catch {
+                user = message.author;
+            }
+        }
+
         if (!user) return message.reply({ content: 'Usuário não encontrado.', ephemeral: true });
 
         const userm = await this.client.database.users.findOne({ idU: user.id });

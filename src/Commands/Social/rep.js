@@ -34,7 +34,17 @@ module.exports = class RepCommand extends Command {
     async commandExecute({ message, args }) {
         const contaData = Math.abs(Date.now() - message.author.createdAt);
         const contaDias = Math.ceil(contaData / (1000 * 60 * 60 * 24));
-        const User = this.client.users.cache.get(args[0]) || message.mentions.users.first();
+
+        // Busca o usuário corretamente (com fetch para evitar problemas de cache)
+        let User = message.mentions.users.first();
+        if (!User && args[0]) {
+            try {
+                User = await this.client.users.fetch(args[0]);
+            } catch {
+                User = null;
+            }
+        }
+
         const Autor = await this.client.database.users.findOne({ idU: message.author.id });
         const rep = Autor.reps;
         const cooldown = 3.6e6 - (Date.now() - rep.time);
