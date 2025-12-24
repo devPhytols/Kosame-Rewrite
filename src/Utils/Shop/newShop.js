@@ -231,7 +231,14 @@ const store = {
         { name: 'Rose Garden', price: 900000000, desc: 'Rosas suaves e toque romântico.', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/98FdKXY.png', raw: 'https://i.imgur.com/UAkpOPu.png' },
         { name: 'Heart Glow', price: 900000000, desc: 'Corações e energia amorosa.', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/b7HQP3c.png', raw: 'https://i.imgur.com/Hlul57x.png' },
         { name: 'Luna Bloom', price: 900000000, desc: 'Flores e borboletas em perfeita harmonia.', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/O3Vww2g.png', raw: 'https://i.imgur.com/WwN8FXI.png' },
-        { name: 'Butterfly Kiss', price: 900000000, desc: 'Magia e frescor da primavera.', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/nrZBcHn.png', raw: 'https://i.imgur.com/XCcXR5a.png' }
+        { name: 'Butterfly Kiss', price: 900000000, desc: 'Magia e frescor da primavera.', rarity: '<:common:1373321022312415344> Comum', image: 'https://i.imgur.com/nrZBcHn.png', raw: 'https://i.imgur.com/XCcXR5a.png' },
+        // === Molduras Exclusivas Natal 2025 (não aparecem na loja) ===
+        { name: 'Moldura Chapéu', price: 0, desc: 'Exclusiva do Evento de Natal 2025!', rarity: '<:events:1373321022312415344> Evento', image: 'https://i.imgur.com/placeholder.png', raw: './src/Assets/img/default/molduras/Natal2025/MolduraChapeu.png', exclusive: true },
+        { name: 'Moldura Gorro', price: 0, desc: 'Exclusiva do Evento de Natal 2025!', rarity: '<:events:1373321022312415344> Evento', image: 'https://i.imgur.com/placeholder.png', raw: './src/Assets/img/default/molduras/Natal2025/MolduraGorro.png', exclusive: true },
+        { name: 'Moldura Natal', price: 0, desc: 'Exclusiva do Evento de Natal 2025!', rarity: '<:events:1373321022312415344> Evento', image: 'https://i.imgur.com/placeholder.png', raw: './src/Assets/img/default/molduras/Natal2025/MolduraNatal.png', exclusive: true },
+        { name: 'Moldura Natalina', price: 0, desc: 'Exclusiva do Evento de Natal 2025!', rarity: '<:events:1373321022312415344> Evento', image: 'https://i.imgur.com/placeholder.png', raw: './src/Assets/img/default/molduras/Natal2025/MolduraNatalina.png', exclusive: true },
+        { name: 'Moldura Pisca', price: 0, desc: 'Exclusiva do Evento de Natal 2025!', rarity: '<:events:1373321022312415344> Evento', image: 'https://i.imgur.com/placeholder.png', raw: './src/Assets/img/default/molduras/Natal2025/MolduraPisca.png', exclusive: true },
+        { name: 'Moldura Rena', price: 0, desc: 'Exclusiva do Evento de Natal 2025!', rarity: '<:events:1373321022312415344> Evento', image: 'https://i.imgur.com/placeholder.png', raw: './src/Assets/img/default/molduras/Natal2025/MolduraRena.png', exclusive: true }
     ],
     layouts: [
         {

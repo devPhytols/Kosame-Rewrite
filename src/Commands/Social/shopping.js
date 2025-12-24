@@ -283,7 +283,9 @@ module.exports = class ShoppingCommand extends Command {
 
         // ============> Função do Paginator <=========== //
         async function showPage(interaction, cat, pg, userShop, colorFilter) {
-            const items = cat === 'backgrounds' ? getFilteredBackgrounds(colorFilter) : store[cat];
+            // Filtra itens exclusivos (exclusive: true não aparece na loja)
+            const rawItems = cat === 'backgrounds' ? getFilteredBackgrounds(colorFilter) : store[cat];
+            const items = rawItems.filter(item => !item.exclusive);
             const pageItems = items.slice(pg * itemsPerPage, (pg + 1) * itemsPerPage);
 
             if (pageItems.length === 0) {

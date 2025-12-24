@@ -110,6 +110,12 @@ module.exports = class ProfilebgCommand extends Command {
                                 emoji: '1373788908609077389',
                                 description: 'Veja a lista de todos os seus layouts comprados.',
                                 value: 'opc2'
+                            },
+                            {
+                                label: '[VIP] Minhas Molduras',
+                                emoji: '1373788914673909771',
+                                description: 'Veja e equipe as molduras que você comprou.',
+                                value: 'opc7'
                             }
                         ])
                 );
@@ -318,6 +324,37 @@ module.exports = class ProfilebgCommand extends Command {
             row2.addOptions({ label: 'Voltar', value: 'voltarmenu' });
 
             const rowBg = new ActionRowBuilder().addComponents(row2);
+
+            // === Molduras Select Menu ===
+            const { store } = require('../../Utils/Shop/newShop.js');
+            const shopMolduras = store.molduras;
+            const userMolduras = user.molduras || [];
+            const rowMoldurasSelect = new StringSelectMenuBuilder()
+                .setCustomId('select')
+                .setPlaceholder('Selecione uma Moldura');
+
+            // Adiciona opção para remover moldura (Default)
+            rowMoldurasSelect.addOptions({
+                label: 'Sem Moldura',
+                description: 'Remove a moldura atual do seu perfil.',
+                value: 'moldura_none'
+            });
+
+            // Adiciona as molduras que o usuário possui
+            for (const molduraName of userMolduras) {
+                const molduraData = shopMolduras.find(m => m.name === molduraName);
+                if (molduraData) {
+                    rowMoldurasSelect.addOptions({
+                        label: molduraData.name,
+                        description: molduraData.desc.substring(0, 50),
+                        value: `moldura_${molduraData.name}`
+                    });
+                }
+            }
+
+            rowMoldurasSelect.addOptions({ label: 'Voltar', value: 'voltarmenu' });
+            const rowMolduras = new ActionRowBuilder().addComponents(rowMoldurasSelect);
+
             const modal = new ModalBuilder()
                 .setCustomId('modalPcf')
                 .setTitle('Configuração de Perfil')
@@ -399,6 +436,32 @@ module.exports = class ProfilebgCommand extends Command {
                         return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP** para utilizar essa opção!', embeds: [], components: [] });
                     }
                     return collected.showModal(modalCoins);
+                } else if (value === 'opc7') {
+                    // Minhas Molduras
+                    if (!user.vip.hasVip) {
+                        return collected.update({ content: '<:emoji_012:839153898774069268> Você precisar ser **VIP** para utilizar molduras!', embeds: [], components: [] });
+                    }
+                    const userMoldurasCount = user.molduras?.length || 0;
+                    if (userMoldurasCount === 0) {
+                        return collected.update({ content: '<:emoji_012:839153898774069268> Você ainda não possui nenhuma moldura! Compre no `k!shop`.', embeds: [], components: [] });
+                    }
+                    return collected.update({ components: [rowMolduras] });
+                } else if (value === 'moldura_none') {
+                    // Remove a moldura
+                    user.profile.moldura = 'null';
+                    user.save();
+                    return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você **removeu** a moldura do seu perfil!`, embeds: [], components: [] });
+                } else if (value.startsWith('moldura_')) {
+                    // Equipa uma moldura
+                    const molduraName = value.replace('moldura_', '');
+                    const molduraData = shopMolduras.find(m => m.name === molduraName);
+                    if (molduraData && user.molduras.includes(molduraName)) {
+                        user.profile.moldura = molduraData.raw;
+                        user.save();
+                        return collected.update({ content: `<:kosame_Correct:1010978511839842385> ${message.author}, você equipou a moldura **${molduraName}**!`, embeds: [], components: [] });
+                    } else {
+                        return collected.update({ content: '<:emoji_012:839153898774069268> Você não possui essa moldura!', embeds: [], components: [] });
+                    }
                 } else if (value === 'bvip1') {
                     user.vip.bLevel = 1;
                     user.save();
